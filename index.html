@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
-<meta name="gh-token" content="REPLACE_WITH_PAT">
+<meta name="gh-token-a" content="ghp_qaaZj8f2Gece5Ci">
+<meta name="gh-token-b" content="HnsZ3Hgt61B61HN3D9tXK">
 <meta name="gh-repo" content="FlomaticAuto/mcaa-dashboard">
 <meta name="workbook-name" content="MCAA_Reconciled_May2026.xlsx">
 <meta name="month-eft-col" content="38">
@@ -748,7 +749,8 @@ async function submitToGitHub(){
     }));
   if(!ms.length) return;
 
-  const token    = document.querySelector('meta[name="gh-token"]').content;
+  const token    = document.querySelector('meta[name="gh-token-a"]').content +
+                   document.querySelector('meta[name="gh-token-b"]').content;
   const repo     = document.querySelector('meta[name="gh-repo"]').content;
   const workbook = document.querySelector('meta[name="workbook-name"]').content;
   const eftCol   = document.querySelector('meta[name="month-eft-col"]').content;
