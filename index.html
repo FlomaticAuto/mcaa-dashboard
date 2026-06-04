@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
+<meta name="gh-token" content="REPLACE_WITH_PAT">
+<meta name="gh-repo" content="FlomaticAuto/mcaa-dashboard">
+<meta name="workbook-name" content="MCAA_Reconciled_May2026.xlsx">
+<meta name="month-eft-col" content="38">
 <title>MCAA Membership Dashboard — May 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -390,6 +394,16 @@ html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(-
       <div id="um-rows"></div>
     </div>
   </div>
+  <div id="gh-submit-wrap" style="display:none;margin-top:20px;">
+    <button id="gh-submit-btn" onclick="submitToGitHub()"
+      style="font-family:var(--font-mono);font-size:12px;font-weight:600;padding:12px 28px;
+             background:#238636;color:#fff;border:none;border-radius:5px;cursor:pointer;
+             display:inline-flex;align-items:center;gap:8px;letter-spacing:0.03em;">
+      &#9654;&nbsp; Submit matches to GitHub
+    </button>
+    <div id="gh-status" style="font-family:var(--font-mono);font-size:11px;margin-top:10px;display:none;line-height:1.6;"></div>
+  </div>
+
   <div class="writeback-box" id="wb-box" style="display:none">
     <button class="copy-btn" onclick="copyWB()">Copy</button>
     <h4>Python writeback — run in the MCAA project folder to update the Excel file</h4>
@@ -677,7 +691,13 @@ function updateKPIs(){
 function updateWB(){
   const ms=Object.entries(decisions).filter(([,d])=>d.member).map(([i,d])=>({date:unmatchedEFTs[i].date,ref:unmatchedEFTs[i].ref,amount:unmatchedEFTs[i].amount,row:d.member.row,name:d.member.name}));
   const box=document.getElementById('wb-box');
-  if(!ms.length){box.style.display='none';return;}
+  const submitWrap=document.getElementById('gh-submit-wrap');
+  if(!ms.length){
+    box.style.display='none';
+    submitWrap.style.display='none';
+    return;
+  }
+  submitWrap.style.display='block';
   box.style.display='block';
   const lines=ms.map(m=>`    {"date": "${m.date}", "ref": "${m.ref}", "amount": ${m.amount}, "row": ${m.row}, "name": "${m.name.replace(/"/g,'\\"')}"}`).join(',\n');
   document.getElementById('wb-pre').textContent=
@@ -717,6 +737,71 @@ print("Done.")`;
 function copyWB(){
   navigator.clipboard.writeText(document.getElementById('wb-pre').textContent)
     .then(()=>{const b=document.querySelector('.copy-btn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',2000);});
+}
+
+async function submitToGitHub(){
+  const ms=Object.entries(decisions)
+    .filter(([,d])=>d.member)
+    .map(([i,d])=>({
+      date:unmatchedEFTs[i].date, ref:unmatchedEFTs[i].ref,
+      amount:unmatchedEFTs[i].amount, row:d.member.row, name:d.member.name
+    }));
+  if(!ms.length) return;
+
+  const token    = document.querySelector('meta[name="gh-token"]').content;
+  const repo     = document.querySelector('meta[name="gh-repo"]').content;
+  const workbook = document.querySelector('meta[name="workbook-name"]').content;
+  const eftCol   = document.querySelector('meta[name="month-eft-col"]').content;
+  const btn      = document.getElementById('gh-submit-btn');
+  const status   = document.getElementById('gh-status');
+
+  btn.disabled=true;
+  btn.innerHTML='&#8987;&nbsp; Submitting…';
+  status.style.display='block';
+  status.style.color='#b45309';
+  status.textContent='Calling GitHub Actions…';
+
+  try {
+    const resp = await fetch(
+      `https://api.github.com/repos/${repo}/actions/workflows/patch_eft.yml/dispatches`,
+      {
+        method:'POST',
+        headers:{
+          'Authorization':`Bearer ${token}`,
+          'Accept':'application/vnd.github+json',
+          'X-GitHub-Api-Version':'2022-11-28',
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          ref:'master',
+          inputs:{
+            match_json:    JSON.stringify(ms),
+            workbook_name: workbook,
+            month_eft_col: eftCol
+          }
+        })
+      }
+    );
+    if(resp.status===204){
+      btn.innerHTML='&#10003;&nbsp; Submitted';
+      btn.style.background='#15803d';
+      status.style.color='#15803d';
+      status.innerHTML=`GitHub Actions triggered — workbook will be updated within ~60 seconds.<br>
+        <a href="https://github.com/${repo}/actions" target="_blank"
+           style="color:#1d4ed8;font-family:var(--font-mono);font-size:10px;">
+          Monitor progress on GitHub Actions &#8599;
+        </a>`;
+    } else {
+      const body=await resp.text();
+      throw new Error(`HTTP ${resp.status}: ${body}`);
+    }
+  } catch(err){
+    btn.disabled=false;
+    btn.innerHTML='&#9888;&nbsp; Retry';
+    btn.style.background='#b91c1c';
+    status.style.color='#b91c1c';
+    status.textContent=`Error: ${err.message}`;
+  }
 }
 
 document.addEventListener('click',e=>{

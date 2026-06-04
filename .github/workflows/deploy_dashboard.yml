@@ -1,0 +1,39 @@
+name: Deploy Dashboard
+
+on:
+  push:
+    branches: [master]
+  workflow_run:
+    workflows: ["Patch EFT Match"]
+    types: [completed]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MCAA_PAT }}
+          ref: master
+
+      - name: Inject PAT into dashboard
+        run: |
+          sed -i 's|content="REPLACE_WITH_PAT"|content="${{ secrets.MCAA_PAT_PUBLIC }}"|g' index.html
+
+      - name: Deploy to gh-pages
+        run: |
+          git config user.name  "FlomaticAuto Bot"
+          git config user.email "bot@flomaticauto.com"
+          # Stash the injected index.html, switch to gh-pages, apply it
+          cp index.html /tmp/index_injected.html
+          git fetch origin
+          git checkout gh-pages 2>/dev/null || git checkout --orphan gh-pages
+          cp /tmp/index_injected.html index.html
+          git add index.html
+          git diff --cached --quiet && echo "No changes to deploy" && exit 0
+          git commit -m "deploy: publish dashboard with injected token [skip ci]"
+          git push origin gh-pages

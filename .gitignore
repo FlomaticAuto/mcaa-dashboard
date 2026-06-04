@@ -12,8 +12,10 @@ MCAA_Reconciled.xlsx
 archive/
 
 # Temporary files
-*.py
 *.json
+*.py
+# Allow patch_eft.py — called by GitHub Actions
+!patch_eft.py
 __pycache__/
 *.pyc
 

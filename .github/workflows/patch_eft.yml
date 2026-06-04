@@ -1,0 +1,53 @@
+name: Patch EFT Match
+
+on:
+  workflow_dispatch:
+    inputs:
+      match_json:
+        description: 'JSON array of match objects'
+        required: true
+        type: string
+      workbook_name:
+        description: 'Workbook filename (e.g. MCAA_Reconciled_May2026.xlsx)'
+        required: true
+        type: string
+      month_eft_col:
+        description: 'Column number for current month EFT in Comprehensive list'
+        required: true
+        type: string
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MCAA_PAT }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install openpyxl
+        run: pip install openpyxl
+
+      - name: Run patch script
+        env:
+          WORKBOOK:      ${{ inputs.workbook_name }}
+          MATCH_JSON:    ${{ inputs.match_json }}
+          MONTH_EFT_COL: ${{ inputs.month_eft_col }}
+        run: python patch_eft.py
+
+      - name: Commit updated workbook
+        run: |
+          git config user.name  "FlomaticAuto Bot"
+          git config user.email "bot@flomaticauto.com"
+          git add "${{ inputs.workbook_name }}"
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "data: patch EFT match via dashboard [skip ci]"
+          git push
