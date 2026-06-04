@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
-<title>MCAA Membership Dashboard — April 2026</title>
+<title>MCAA Membership Dashboard — May 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
@@ -30,7 +30,7 @@ html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(-
 .sb-date{margin:0 22px 20px;padding:8px 10px;background:#1a1a1a;border-radius:4px;border-left:2px solid #b91c1c;}
 .sb-date span{font-family:var(--font-mono);font-size:9px;color:#aaa;display:block;}
 .sb-date strong{font-family:var(--font-mono);font-size:11px;color:#fff;}
-.sb-nav{flex:1;padding:0 12px;}
+.sb-nav{flex:1;padding:0 12px;overflow-y:auto;}
 .sb-section{font-family:var(--font-mono);font-size:8px;text-transform:uppercase;letter-spacing:0.12em;color:#444;padding:16px 10px 6px;}
 .nav-btn{width:100%;text-align:left;border:none;background:transparent;font-family:var(--font-mono);font-size:11px;color:#666;padding:9px 10px;border-radius:4px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:all 0.15s;margin-bottom:1px;letter-spacing:0.02em;}
 .nav-btn:hover{background:#1a1a1a;color:#ccc;}
@@ -45,7 +45,6 @@ html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(-
 .page-hdr h2{font-family:var(--font-display);font-size:30px;font-weight:900;letter-spacing:-0.5px;color:var(--ink);}
 .page-hdr p{font-family:var(--font-mono);font-size:10px;color:var(--ink4);margin-top:4px;}
 .page-hdr-badge{font-family:var(--font-mono);font-size:9px;padding:4px 10px;border-radius:3px;border:1px solid var(--paper3);color:var(--ink3);}
-.period-badge{font-family:var(--font-mono);font-size:10px;padding:6px 14px;border-radius:3px;background:var(--blue-l);border:1px solid var(--blue-m);color:var(--blue);font-weight:600;letter-spacing:0.06em;}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
 .kpi-row.cols3{grid-template-columns:repeat(3,1fr);}
 .kpi-row.cols2{grid-template-columns:repeat(2,1fr);}
@@ -96,9 +95,7 @@ html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(-
 .cap-fill{height:100%;border-radius:2px;}
 .cap-ratio{font-family:var(--font-mono);font-size:10px;font-weight:600;width:40px;text-align:right;}
 .cap-tag{font-family:var(--font-mono);font-size:8px;padding:2px 6px;border-radius:2px;font-weight:600;display:inline-block;margin-bottom:6px;}
-.tag-r{background:var(--red-m);color:var(--red);}
-.tag-e{background:var(--amber-m);color:var(--amber);}
-.tag-g{background:var(--green-m);color:var(--green);}
+.tag-r{background:var(--red-m);color:var(--red);}.tag-e{background:var(--amber-m);color:var(--amber);}.tag-g{background:var(--green-m);color:var(--green);}
 .cam-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
 .cam-item{background:var(--purple-l);border:1px solid var(--purple-m);border-radius:5px;padding:14px 16px;}
 .cam-name{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;}
@@ -109,24 +106,51 @@ html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(-
 .cam-total-bar{background:var(--green-l);border:1px solid var(--green-m);border-radius:5px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
 .cam-total-lbl{font-family:var(--font-mono);font-size:11px;color:var(--green);font-weight:600;}
 .cam-total-val{font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--green);}
-.cam-month-hdr{font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--ink);margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--paper3);letter-spacing:-0.3px;}
 .dq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .dq-item{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:5px;border-left:3px solid;font-size:12px;line-height:1.6;}
-.dq-item.bad{border-color:var(--red);background:var(--red-l);}
-.dq-item.warn{border-color:var(--amber);background:var(--amber-l);}
-.dq-item.good{border-color:var(--green);background:var(--green-l);}
+.dq-item.bad{border-color:var(--red);background:var(--red-l);}.dq-item.warn{border-color:var(--amber);background:var(--amber-l);}.dq-item.good{border-color:var(--green);background:var(--green-l);}
 .dq-badge{font-family:var(--font-mono);font-size:8px;text-transform:uppercase;padding:2px 6px;border-radius:2px;flex-shrink:0;margin-top:2px;font-weight:600;letter-spacing:0.06em;}
-.dq-item.bad .dq-badge{background:var(--red-m);color:var(--red);}
-.dq-item.warn .dq-badge{background:var(--amber-m);color:var(--amber);}
-.dq-item.good .dq-badge{background:var(--green-m);color:var(--green);}
-.chart-legend{display:flex;gap:20px;margin-bottom:14px;}
-.cl-item{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10px;color:var(--ink3);}
-.cl-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.dq-item.bad .dq-badge{background:var(--red-m);color:var(--red);}.dq-item.warn .dq-badge{background:var(--amber-m);color:var(--amber);}.dq-item.good .dq-badge{background:var(--green-m);color:var(--green);}
 .exp-table{width:100%;border-collapse:collapse;}
 .exp-table th{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink4);padding:8px 14px;text-align:left;border-bottom:1px solid var(--paper3);}
 .exp-table td{padding:11px 14px;border-bottom:1px solid var(--paper2);font-family:var(--font-mono);font-size:11px;}
 .exp-table tr:last-child td{border-bottom:none;}
 .exp-cat{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;font-weight:600;}
+/* Unmatched EFTs */
+.um-hdr{display:grid;grid-template-columns:100px 1fr 80px 260px 110px;gap:12px;padding:9px 16px;background:var(--paper);border-bottom:1px solid var(--paper3);}
+.um-hdr span{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink4);}
+.um-row{display:grid;grid-template-columns:100px 1fr 80px 260px 110px;gap:12px;padding:14px 16px;border-bottom:1px solid var(--paper2);align-items:center;}
+.um-row:last-child{border-bottom:none;}
+.um-date{font-family:var(--font-mono);font-size:10px;color:var(--ink4);}
+.um-ref{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--ink);}
+.um-amt{font-family:var(--font-display);font-size:16px;font-weight:900;color:var(--red);}
+.um-search{position:relative;}
+.um-search input{width:100%;border:1px solid var(--paper3);border-radius:4px;padding:7px 10px;font-family:var(--font-mono);font-size:11px;background:#fff;color:var(--ink);outline:none;}
+.um-search input:focus{border-color:var(--blue);}
+.um-search input.matched{border-color:var(--green);background:var(--green-l);}
+.um-dropdown{position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1px solid var(--paper3);border-radius:4px;z-index:100;max-height:200px;overflow-y:auto;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.um-dropdown.open{display:block;}
+.um-opt{padding:8px 10px;font-family:var(--font-mono);font-size:11px;cursor:pointer;border-bottom:1px solid var(--paper2);}
+.um-opt:hover{background:var(--paper);}
+.um-opt:last-child{border-bottom:none;}
+.um-opt strong{color:var(--ink);display:block;}
+.um-opt small{color:var(--ink4);}
+.um-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.um-status{font-family:var(--font-mono);font-size:9px;padding:3px 7px;border-radius:3px;white-space:nowrap;}
+.um-status.pending{background:var(--amber-l);color:var(--amber);}
+.um-status.matched{background:var(--green-l);color:var(--green);font-weight:600;}
+.um-status.ignored{background:var(--paper2);color:var(--ink4);}
+.um-btn{font-family:var(--font-mono);font-size:9px;padding:4px 8px;border-radius:3px;border:1px solid;cursor:pointer;background:transparent;white-space:nowrap;}
+.um-btn.ignore{border-color:var(--paper3);color:var(--ink4);}
+.um-btn.ignore:hover{background:var(--paper2);}
+.um-btn.clear{border-color:var(--paper3);color:var(--ink4);}
+.um-btn.clear:hover{background:var(--paper2);}
+.writeback-box{background:#111;border:1px solid #222;border-radius:6px;padding:20px 24px;margin-top:20px;}
+.writeback-box h4{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;margin-bottom:12px;}
+.writeback-box pre{font-family:var(--font-mono);font-size:11px;color:#7dd3fc;white-space:pre-wrap;line-height:1.7;word-break:break-all;}
+.writeback-box .wb-note{font-family:var(--font-mono);font-size:10px;color:#555;margin-top:10px;line-height:1.6;}
+.copy-btn{float:right;font-family:var(--font-mono);font-size:9px;padding:3px 8px;border-radius:3px;border:1px solid #444;color:#aaa;cursor:pointer;background:transparent;}
+.copy-btn:hover{border-color:#7dd3fc;color:#7dd3fc;}
 </style>
 </head>
 <body>
@@ -137,728 +161,569 @@ html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(-
     <h1>MCAA<br>Dashboard</h1>
     <p>Muckleneuk &amp; Claudius<br>Area Association</p>
   </div>
-  <div class="sb-date">
-    <span>Reporting period</span>
-    <strong>30 April 2026</strong>
-  </div>
+  <div class="sb-date"><span>Reporting period</span><strong>May 2026</strong></div>
   <div class="sb-nav">
     <div class="sb-section">Analytics</div>
-    <button class="nav-btn active" onclick="go('ov')"><span class="nb-icon">&#9672;</span>Overview</button>
-    <button class="nav-btn" onclick="go('rv')"><span class="nb-icon">&#9673;</span>Revenue</button>
-    <button class="nav-btn" onclick="go('cam')"><span class="nb-icon">&#9678;</span>Camera</button>
-    <button class="nav-btn" onclick="go('st')"><span class="nb-icon">&#9643;</span>Streets</button>
-    <button class="nav-btn" onclick="go('ca')"><span class="nb-icon">&#9783;</span>Captains</button>
+    <button class="nav-btn active" data-tab="ov"><span class="nb-icon">&#9672;</span>Overview</button>
+    <button class="nav-btn" data-tab="rv"><span class="nb-icon">&#9673;</span>Revenue</button>
+    <button class="nav-btn" data-tab="cam"><span class="nb-icon">&#9678;</span>Camera</button>
+    <button class="nav-btn" data-tab="st"><span class="nb-icon">&#9707;</span>Streets</button>
+    <button class="nav-btn" data-tab="ca"><span class="nb-icon">&#9783;</span>Captains</button>
     <div class="sb-section">Financials</div>
-    <button class="nav-btn" onclick="go('ex')"><span class="nb-icon">&#9633;</span>Expenses</button>
+    <button class="nav-btn" data-tab="ex"><span class="nb-icon">&#9723;</span>Expenses</button>
     <div class="sb-section">Reporting</div>
-    <button class="nav-btn" onclick="go('dq')"><span class="nb-icon">&#9672;</span>Data quality</button>
+    <button class="nav-btn" data-tab="um"><span class="nb-icon">&#9888;</span>Unmatched EFTs</button>
+    <button class="nav-btn" data-tab="dq"><span class="nb-icon">&#9672;</span>Data quality</button>
   </div>
   <div class="sb-footer"><div class="sb-conf">&#11035; Confidential</div></div>
 </aside>
 
 <main class="main">
 
-<!-- ══ OVERVIEW ══ -->
+<!-- OVERVIEW -->
 <div id="tab-ov" class="panel active">
   <div class="page-hdr">
-    <div><h2>Overview</h2><p>April 2026 membership snapshot</p></div>
-    <span class="page-hdr-badge">Apr-26 · Statement period 01–30 Apr 2026</span>
+    <div><h2>Overview</h2><p>MCAA membership and payment summary — May 2026</p></div>
+    <span class="page-hdr-badge">Statement: 01–31 May 2026</span>
   </div>
-
   <div class="kpi-row">
-    <div class="kpi kb">
-      <div class="kl">Total Residents</div>
-      <div class="kv clb">528</div>
-      <div class="ks">Named rows 2–529 · Comprehensive list</div>
-    </div>
-    <div class="kpi ka">
-      <div class="kl">Unique Plots</div>
-      <div class="kv cla">202</div>
-      <div class="ks">Distinct plot numbers across all members</div>
-    </div>
-    <div class="kpi kg">
-      <div class="kl">Paying Residents</div>
-      <div class="kv clg">76</div>
-      <div class="ks">DO or EFT &gt; 0 in Apr-26 · 14.4%</div>
-    </div>
-    <div class="kpi kr">
-      <div class="kl">Not Paying</div>
-      <div class="kv clr">452</div>
-      <div class="ks">No payment recorded this month</div>
-    </div>
+    <div class="kpi kb"><div class="kl">Total Residents</div><div class="kv clb">528</div><div class="ks">Named rows in Comprehensive list</div></div>
+    <div class="kpi ka"><div class="kl">Unique Plots</div><div class="kv cla">182</div><div class="ks">Distinct plot numbers (excl. blank / ?)</div></div>
+    <div class="kpi kg"><div class="kl">Paying Residents</div><div class="kv clg">79</div><div class="ks">15.0% paid in May 2026</div></div>
+    <div class="kpi kr"><div class="kl">Not Paying</div><div class="kv clr">449</div><div class="ks">85.0% — no payment recorded May 2026</div></div>
   </div>
-
   <div class="card-row cols3">
     <div class="card">
-      <div class="ch"><h3>Residents vs Paying</h3></div>
+      <div class="ch"><h3>Residents Paying</h3><span class="ch-sub">May 2026</span></div>
       <div class="cb">
         <div class="donut-wrap">
-          <div class="dw">
-            <canvas id="d1" width="110" height="110"></canvas>
-            <div class="dlbl"><div class="dv">76</div><div class="ds">paying</div></div>
-          </div>
+          <div class="dw"><canvas id="d1" width="110" height="110"></canvas><div class="dlbl"><div class="dv">79</div><div class="ds">paying</div></div></div>
           <div class="leg">
-            <div class="lr"><span class="sw" style="background:#15803d"></span>Paying<span class="lr-pct" style="color:#15803d">14.4%</span></div>
-            <div class="lr"><span class="sw" style="background:#b91c1c"></span>Not paying<span class="lr-pct" style="color:#b91c1c">85.6%</span></div>
+            <div class="lr"><span class="sw" style="background:#15803d"></span>Paying<span class="lr-pct" style="color:#15803d">15%</span></div>
+            <div class="lr"><span class="sw" style="background:#b91c1c"></span>Not paying<span class="lr-pct" style="color:#b91c1c">85%</span></div>
           </div>
         </div>
-        <div class="insight">76 of 528 residents paid in April. Mar-26 saw a higher EFT count driven by annual payment activity; April reflects the steady monthly D/O base only.</div>
+        <div class="insight">DO: 60 members · EFT: 19 members · Total: 79 unique payers.</div>
       </div>
     </div>
     <div class="card">
-      <div class="ch"><h3>Plots with a Payer</h3></div>
+      <div class="ch"><h3>Plots with Payer</h3><span class="ch-sub">May 2026</span></div>
       <div class="cb">
         <div class="donut-wrap">
-          <div class="dw">
-            <canvas id="d2" width="110" height="110"></canvas>
-            <div class="dlbl"><div class="dv" id="plots-paying-n">—</div><div class="ds">plots</div></div>
-          </div>
-          <div class="leg" id="plots-paying-leg"></div>
+          <div class="dw"><canvas id="d2" width="110" height="110"></canvas><div class="dlbl"><div class="dv" id="plots-n">—</div><div class="ds">plots</div></div></div>
+          <div class="leg" id="plots-leg"></div>
         </div>
-        <div class="insight">Plots where at least one resident paid in Apr-26. Multiple residents can share a plot number.</div>
+        <div class="insight">182 unique plots across the estate.</div>
       </div>
     </div>
     <div class="card">
-      <div class="ch"><h3>Captain Coverage</h3></div>
+      <div class="ch"><h3>Captain Coverage</h3><span class="ch-sub">Street Captains register</span></div>
       <div class="cb">
         <div class="donut-wrap">
-          <div class="dw">
-            <canvas id="d3" width="110" height="110"></canvas>
-            <div class="dlbl"><div class="dv">11</div><div class="ds">captains</div></div>
-          </div>
+          <div class="dw"><canvas id="d3" width="110" height="110"></canvas><div class="dlbl"><div class="dv">11</div><div class="ds">captains</div></div></div>
           <div class="leg">
             <div class="lr"><span class="sw" style="background:#15803d"></span>Assigned<span class="lr-pct" style="color:#15803d">61%</span></div>
             <div class="lr"><span class="sw" style="background:#b91c1c"></span>Vacant<span class="lr-pct" style="color:#b91c1c">39%</span></div>
           </div>
         </div>
-        <div class="insight">11 of 18 streets in the captain register have an assigned Street Captain. 7 streets remain without a captain for resident follow-up.</div>
+        <div class="insight">11 of 18 streets have an assigned Street Captain.</div>
       </div>
     </div>
   </div>
-
   <div class="card">
-    <div class="ch"><h3>Revenue Trend — All Months</h3><span class="ch-sub">Mar-25 through Apr-26</span></div>
-    <div class="cb" style="height:220px">
-      <canvas id="trend-overview"></canvas>
-    </div>
+    <div class="ch"><h3>Revenue Trend — All Months</h3><span class="ch-sub">Mar-25 through May-26</span></div>
+    <div class="cb" style="height:220px"><canvas id="trend-overview"></canvas></div>
   </div>
 </div>
 
-<!-- ══ REVENUE ══ -->
+<!-- REVENUE -->
 <div id="tab-rv" class="panel">
   <div class="page-hdr">
-    <div><h2>Revenue</h2><p>Membership levy collections — DO and EFT</p></div>
-    <span class="period-badge">APRIL 2026 · 01–30 Apr 2026</span>
+    <div><h2>Revenue</h2><p>Membership payment breakdown — May 2026</p></div>
+    <span class="page-hdr-badge">DO R19,625 &nbsp;|&nbsp; EFT R6,710</span>
   </div>
-
   <div class="kpi-row cols3">
-    <div class="kpi kb">
-      <div class="kl">Debit Order Total</div>
-      <div class="kv clb">R19,625</div>
-      <div class="ks">60 D/O members · batch collected by Capitec</div>
-    </div>
-    <div class="kpi kg">
-      <div class="kl">EFT Total</div>
-      <div class="kv clg">R5,180</div>
-      <div class="ks">19 individual EFT payments matched · Apr-26</div>
-    </div>
-    <div class="kpi ka">
-      <div class="kl">Total Membership Revenue</div>
-      <div class="kv cla">R24,805</div>
-      <div class="ks">Combined DO + EFT · excl. camera · April 2026</div>
-    </div>
+    <div class="kpi kb"><div class="kl">DO Revenue</div><div class="kv clb">R19,625</div><div class="ks">60 members · 14 Capitec batches</div></div>
+    <div class="kpi kg"><div class="kl">EFT Revenue</div><div class="kv clg">R6,710</div><div class="ks">19 individual EFT payments</div></div>
+    <div class="kpi ka"><div class="kl">Total Membership</div><div class="kv cla">R26,335</div><div class="ks">Combined DO + EFT · May 2026</div></div>
   </div>
-
   <div class="card-row cols2">
-    <div class="card">
-      <div class="ch"><h3>DO vs EFT Mix</h3><span class="ch-sub">April 2026</span></div>
-      <div class="cb" style="height:200px">
-        <canvas id="rv-donut"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><h3>Monthly Revenue Breakdown</h3><span class="ch-sub">Stacked DO + EFT · Mar-25 to Apr-26</span></div>
-      <div class="cb" style="height:200px">
-        <div class="chart-legend">
-          <span class="cl-item"><span class="cl-dot" style="background:rgba(29,78,216,0.8)"></span>DO</span>
-          <span class="cl-item"><span class="cl-dot" style="background:rgba(21,128,61,0.8)"></span>EFT</span>
-          <span class="cl-item"><span class="cl-dot" style="background:#b91c1c;border-radius:50%"></span>Total</span>
-        </div>
-        <canvas id="rv-trend"></canvas>
-      </div>
-    </div>
+    <div class="card"><div class="ch"><h3>DO vs EFT Split</h3><span class="ch-sub">May 2026</span></div><div class="cb" style="height:200px"><canvas id="rv-donut"></canvas></div></div>
+    <div class="card"><div class="ch"><h3>Monthly Revenue History</h3><span class="ch-sub">Mar-25 to May-26</span></div><div class="cb" style="height:200px"><canvas id="rv-bar"></canvas></div></div>
   </div>
-
-  <div class="card-row cols2">
-    <div class="card">
-      <div class="ch"><h3>DO Payer Count per Month</h3><span class="ch-sub">April 2026 = 60 members</span></div>
-      <div class="cb" style="height:180px"><canvas id="rv-do-count"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="ch"><h3>EFT Payer Count per Month</h3><span class="ch-sub">April 2026 = 19 members</span></div>
-      <div class="cb" style="height:180px"><canvas id="rv-eft-count"></canvas></div>
+  <div class="card">
+    <div class="ch"><h3>Reconciliation Summary — May 2026</h3></div>
+    <div class="cb">
+      <table class="exp-table"><tbody>
+        <tr><td style="font-weight:600">Opening balance (1 May 2026)</td><td style="text-align:right">R 41,560.29</td></tr>
+        <tr><td>DO batch total (14 batches)</td><td style="text-align:right">R 19,805.00</td></tr>
+        <tr><td>EFT membership (19 members)</td><td style="text-align:right">R 6,710.00</td></tr>
+        <tr><td>Camera members (4)</td><td style="text-align:right">R 1,860.00</td></tr>
+        <tr><td>Camera sponsors (BlgN15F)</td><td style="text-align:right">R 500.00</td></tr>
+        <tr><td>Other credits (reversed + unmatched)</td><td style="text-align:right">R 1,070.00</td></tr>
+        <tr><td style="font-weight:600">Total credits</td><td style="text-align:right;font-weight:600">R 29,945.00</td></tr>
+        <tr><td>Total debits + fees</td><td style="text-align:right;color:var(--red)">&minus;R 36,212.05</td></tr>
+        <tr><td style="font-weight:600">Closing balance (computed)</td><td style="text-align:right;font-weight:600;color:var(--green)">R 35,293.24</td></tr>
+        <tr><td style="color:var(--green)">Statement closing balance</td><td style="text-align:right;color:var(--green)">R 35,293.24</td></tr>
+        <tr><td style="color:var(--green);font-weight:600">Balance check</td><td style="text-align:right;color:var(--green);font-weight:600">PASS &#10003;</td></tr>
+      </tbody></table>
     </div>
   </div>
 </div>
 
-<!-- ══ CAMERA ══ -->
+<!-- CAMERA -->
 <div id="tab-cam" class="panel">
   <div class="page-hdr">
-    <div><h2>Camera</h2><p>Camera system contributions — cumulative to April 2026</p></div>
-    <span class="page-hdr-badge">Separate from membership levy</span>
+    <div><h2>Camera</h2><p>Camera fund contributions — May 2026</p></div>
+    <span class="page-hdr-badge">May total R2,360 &nbsp;|&nbsp; Expenditure R17,322</span>
   </div>
-
-  <!-- Cumulative totals -->
-  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi kp">
-      <div class="kl">Total Camera Income</div>
-      <div class="kv clp">R24,850</div>
-      <div class="ks">Cumulative · all months</div>
-    </div>
-    <div class="kpi" style="border-top:3px solid #6b7280">
-      <div class="kl">February 2026</div>
-      <div class="kv" style="color:var(--ink4);font-size:28px">R0</div>
-      <div class="ks">No bank statement on file</div>
-    </div>
-    <div class="kpi kb">
-      <div class="kl">March 2026</div>
-      <div class="kv clb">R14,500</div>
-      <div class="ks">10 members · 5 sponsors</div>
-    </div>
-    <div class="kpi kg">
-      <div class="kl">April 2026</div>
-      <div class="kv clg">R10,350</div>
-      <div class="ks">8 members · 2 sponsors</div>
-    </div>
+  <div class="kpi-row cols3">
+    <div class="kpi kp"><div class="kl">Member Contributions</div><div class="kv clp">R1,860</div><div class="ks">4 member camera payments</div></div>
+    <div class="kpi kp"><div class="kl">Sponsor Contributions</div><div class="kv clp">R500</div><div class="ks">BlgN15F — 1 payment</div></div>
+    <div class="kpi kb"><div class="kl">Camera Expenditure</div><div class="kv clb">R17,322</div><div class="ks">Tary Design R16,820 + Nel St refund R502</div></div>
   </div>
-
-  <!-- April 2026 — most recent first -->
-  <div class="cam-month-hdr">April 2026 &mdash; R10,350</div>
   <div class="card">
-    <div class="ch"><h3>Member Camera Payments</h3><span class="ch-sub">Apr-26 · 8 members · R8,850</span></div>
+    <div class="ch"><h3>May 2026 — Member Camera Payments</h3><span class="ch-sub">New this month</span></div>
     <div class="cb">
-      <div class="cam-grid" id="cam-apr-members-grid"></div>
+      <div class="cam-grid">
+        <div class="cam-item"><div class="cam-name">Terry Shapiro</div><div class="cam-sub">Danie Theron · plot 82</div><div class="cam-val">R350</div></div>
+        <div class="cam-item"><div class="cam-name">Graham Thiele</div><div class="cam-sub">Nel Street · plot 83</div><div class="cam-val">R500</div></div>
+        <div class="cam-item"><div class="cam-name">Andrew Chapman</div><div class="cam-sub">Nel Street · plot 96</div><div class="cam-val">R510</div></div>
+        <div class="cam-item"><div class="cam-name">Debbie Rautenbach</div><div class="cam-sub">Nel Street · plot 94</div><div class="cam-val">R500</div></div>
+      </div>
     </div>
   </div>
   <div class="card">
-    <div class="ch"><h3>Standalone Sponsors</h3><span class="ch-sub">Apr-26 · 2 sponsors · R1,500 · not counted as members</span></div>
+    <div class="ch"><h3>May 2026 — Sponsors</h3></div>
     <div class="cb">
-      <div class="cam-sponsor-grid" id="cam-apr-sponsors-grid"></div>
+      <div class="cam-sponsor-grid">
+        <div class="cam-sponsor"><div class="cam-name" style="font-size:12px;font-weight:600;margin-bottom:6px">BlgN15F</div><div style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--purple)">R500</div></div>
+      </div>
     </div>
   </div>
-
-  <!-- March 2026 -->
-  <div class="cam-month-hdr">March 2026 &mdash; R14,500</div>
-  <div class="card">
-    <div class="ch"><h3>Member Camera Payments</h3><span class="ch-sub">Mar-26 · 10 members · R11,400</span></div>
-    <div class="cb">
-      <div class="cam-grid" id="cam-mar-members-grid"></div>
+  <div class="cam-total-bar"><span class="cam-total-lbl">May 2026 Camera total</span><span class="cam-total-val">R2,360</span></div>
+  <div style="margin-top:20px;background:var(--amber-l);border:1px solid var(--amber-m);border-radius:5px;padding:16px 20px;">
+    <div style="font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--amber);margin-bottom:6px;text-transform:uppercase">Camera Expenditure — May 2026</div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink2);line-height:1.8">
+      <strong>Tary Design MCAA</strong> — R16,818.06 (+ R2 fee = R16,820.06) &nbsp;|&nbsp; Camera equipment (09/05)<br>
+      <strong>Nel St Camera refund</strong> — R500.00 (+ R2 fee = R502.00) &nbsp;|&nbsp; Reimbursement to resident (09/05)<br>
+      <strong>Total outflow:</strong> R17,322.06
     </div>
   </div>
-  <div class="card">
-    <div class="ch"><h3>Standalone Sponsors</h3><span class="ch-sub">Mar-26 · 5 sponsors · R3,100 · not counted as members</span></div>
-    <div class="cb">
-      <div class="cam-sponsor-grid" id="cam-mar-sponsors-grid"></div>
-    </div>
-  </div>
-
-  <!-- February 2026 -->
-  <div class="cam-month-hdr" style="color:var(--ink4)">February 2026 &mdash; no data</div>
-  <div class="card" style="border-style:dashed;opacity:0.6">
-    <div class="ch"><h3>No Camera Payments on File</h3><span class="ch-sub">Feb-26 bank statement not yet processed</span></div>
-    <div class="cb">
-      <p style="font-family:var(--font-mono);font-size:11px;color:var(--ink4);padding:8px 0">No bank statement has been loaded for February 2026. Camera payments for this month will appear here once the statement is processed.</p>
-    </div>
+  <div style="margin-top:16px;background:#fff;border:1px solid var(--paper3);border-radius:6px;padding:16px 20px;">
+    <div style="font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--ink2);text-transform:uppercase;margin-bottom:6px">Historical Camera — Previous Months</div>
+    <p style="font-family:var(--font-mono);font-size:11px;color:var(--ink4);line-height:1.7">March 2026: R14,500 members · R3,100 sponsors. April 2026: R8,850 members · R1,500 sponsors.</p>
   </div>
 </div>
 
-<!-- ══ STREETS ══ -->
+<!-- STREETS -->
 <div id="tab-st" class="panel">
   <div class="page-hdr">
-    <div><h2>Streets</h2><p>Payment rates by street — April 2026</p></div>
-    <span class="page-hdr-badge">Sorted: highest rate to lowest</span>
+    <div><h2>Streets</h2><p>Payment rates by street — May 2026</p></div>
+    <span class="page-hdr-badge">Sorted: highest rate first</span>
   </div>
-
   <div class="card">
-    <div class="ch"><h3>Street Payment Summary</h3><span class="ch-sub">DO and EFT amounts · April 2026 · sorted by collection rate</span></div>
+    <div class="ch"><h3>Street Payment Summary</h3><span class="ch-sub">May 2026</span></div>
     <div class="cb" style="padding:0">
       <table class="st-table">
-        <thead>
-          <tr>
-            <th>Street</th>
-            <th>Residents</th>
-            <th style="color:#1d4ed8">DO (R)</th>
-            <th style="color:#15803d">EFT (R)</th>
-            <th style="color:var(--ink2);font-weight:700">Total (R)</th>
-            <th>Paying</th>
-            <th>Not paying</th>
-            <th>Rate</th>
-            <th>Bar</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Street</th><th>Residents</th><th style="color:#1d4ed8">DO (R)</th><th style="color:#15803d">EFT (R)</th><th style="font-weight:700">Total (R)</th><th>Paying</th><th>Not paying</th><th>Rate</th><th>Bar</th></tr></thead>
         <tbody id="streets-tbody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ══ CAPTAINS ══ -->
+<!-- CAPTAINS -->
 <div id="tab-ca" class="panel">
   <div class="page-hdr">
-    <div><h2>Captains</h2><p>Street captain status and collection performance — April 2026</p></div>
-    <span class="page-hdr-badge">11 assigned · 7 vacant · 18 streets</span>
+    <div><h2>Captains</h2><p>Street captain status — May 2026</p></div>
+    <span class="page-hdr-badge">11 assigned · 8 vacant · 19 streets</span>
   </div>
-
   <div class="kpi-row cols3">
-    <div class="kpi kg">
-      <div class="kl">Streets with Captain</div>
-      <div class="kv clg">11</div>
-      <div class="ks">Assigned street captains</div>
-    </div>
-    <div class="kpi kr">
-      <div class="kl">Streets Vacant</div>
-      <div class="kv clr">7</div>
-      <div class="ks">No captain assigned — recruitment needed</div>
-    </div>
-    <div class="kpi kb">
-      <div class="kl">Total Streets</div>
-      <div class="kv clb">18</div>
-      <div class="ks">From Street Captains register</div>
-    </div>
+    <div class="kpi kg"><div class="kl">Streets with Captain</div><div class="kv clg">11</div><div class="ks">Assigned</div></div>
+    <div class="kpi kr"><div class="kl">Streets Vacant</div><div class="kv clr">8</div><div class="ks">No captain assigned</div></div>
+    <div class="kpi kb"><div class="kl">Total Streets</div><div class="kv clb">19</div><div class="ks">From register</div></div>
   </div>
-
-  <div class="card">
-    <div class="ch"><h3>Captain Performance by Street</h3><span class="ch-sub">Apr-26 actual paying rate · sorted highest to lowest</span></div>
-    <div class="cb">
-      <div class="cap-grid" id="captains-grid"></div>
-    </div>
-  </div>
+  <div class="card"><div class="ch"><h3>Captain Performance</h3><span class="ch-sub">May-26 paying rate</span></div><div class="cb"><div class="cap-grid" id="captains-grid"></div></div></div>
 </div>
 
-<!-- ══ EXPENSES ══ -->
+<!-- EXPENSES -->
 <div id="tab-ex" class="panel">
   <div class="page-hdr">
-    <div><h2>Expenses</h2><p>Outgoing transactions — April 2026</p></div>
-    <span class="page-hdr-badge">Total R36,232.61</span>
+    <div><h2>Expenses</h2><p>Outgoing transactions — May 2026</p></div>
+    <span class="page-hdr-badge">Total R36,212.05</span>
   </div>
-
   <div class="kpi-row">
-    <div class="kpi kr">
-      <div class="kl">Salary</div>
-      <div class="kv clr">R12,506</div>
-      <div class="ks">Mengo Sibanda + R6 bank fee</div>
-    </div>
-    <div class="kpi kp">
-      <div class="kl">Camera Purchase</div>
-      <div class="kv clp">R14,502</div>
-      <div class="ks">Tary Design camera equipment + R2 fee</div>
-    </div>
-    <div class="kpi ka">
-      <div class="kl">Maintenance</div>
-      <div class="kv cla">R4,756</div>
-      <div class="ks">Luka fence repair + R6 bank fee</div>
-    </div>
-    <div class="kpi kb">
-      <div class="kl">Bank Fees &amp; Other</div>
-      <div class="kv clb">R4,469</div>
-      <div class="ks">DO fee + Red Hot Bit + Month fee + reversals</div>
-    </div>
+    <div class="kpi kr"><div class="kl">Salary</div><div class="kv clr">R12,502</div><div class="ks">Mengo Sibanda</div></div>
+    <div class="kpi kp"><div class="kl">Camera Purchase</div><div class="kv clp">R17,322</div><div class="ks">Tary Design + Nel St refund</div></div>
+    <div class="kpi ka"><div class="kl">Maintenance</div><div class="kv cla">R4,752</div><div class="ks">Fence repair — Luka</div></div>
+    <div class="kpi kb"><div class="kl">Fees &amp; Reversals</div><div class="kv clb">R1,636</div><div class="ks">Bank fees + reversals + utilities</div></div>
   </div>
-
   <div class="card">
-    <div class="ch"><h3>Expense Register — April 2026</h3></div>
+    <div class="ch"><h3>Expense Register — May 2026</h3><span class="ch-sub">All outgoing transactions</span></div>
     <div class="cb" style="padding:0">
       <table class="exp-table">
-        <thead>
-          <tr><th>Date</th><th>Reference</th><th>Category</th><th style="text-align:right">Amount</th><th>Notes</th></tr>
-        </thead>
-        <tbody id="expense-tbody"></tbody>
+        <thead><tr><th>Date</th><th>Reference</th><th>Category</th><th style="text-align:right">Amount (R)</th><th>Notes</th></tr></thead>
+        <tbody id="exp-tbody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ══ DATA QUALITY ══ -->
+<!-- UNMATCHED EFTs -->
+<div id="tab-um" class="panel">
+  <div class="page-hdr">
+    <div><h2>Unmatched EFTs</h2><p>Credits not automatically matched to a member — May 2026</p></div>
+    <span class="page-hdr-badge" id="um-badge">3 pending</span>
+  </div>
+  <div class="kpi-row cols3">
+    <div class="kpi kr"><div class="kl">Unmatched Credits</div><div class="kv clr" id="um-kpi-count">3</div><div class="ks">Require administrator decision</div></div>
+    <div class="kpi ka"><div class="kl">Total Amount</div><div class="kv cla">R900</div><div class="ks">R400 Geraldine Evans ×2 + R500 Joseph</div></div>
+    <div class="kpi kg"><div class="kl">Matched This Session</div><div class="kv clg" id="um-kpi-matched">0</div><div class="ks">Ready for Excel writeback</div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="ch"><h3>Unmatched Payments</h3><span class="ch-sub">Type a name to search · select member · Confirm to record</span></div>
+    <div class="cb" style="padding:0">
+      <div class="um-hdr">
+        <span>Date</span><span>Bank Reference</span><span>Amount</span><span>Match to Member</span><span>Status</span>
+      </div>
+      <div id="um-rows"></div>
+    </div>
+  </div>
+  <div class="writeback-box" id="wb-box" style="display:none">
+    <button class="copy-btn" onclick="copyWB()">Copy</button>
+    <h4>Python writeback — run in the MCAA project folder to update the Excel file</h4>
+    <pre id="wb-pre"></pre>
+    <div class="wb-note">Save the script above as <strong>match_writeback.py</strong> in the MCAA folder, then run: <code style="color:#7dd3fc">python match_writeback.py</code><br>It will write matched amounts into the May-26 EFT column and append entries to the Matching Audit Log.</div>
+  </div>
+  <div style="margin-top:16px;background:var(--paper2);border-radius:5px;padding:14px 18px;font-family:var(--font-mono);font-size:10px;color:var(--ink4);line-height:1.8">
+    <strong style="color:var(--ink3)">Workflow:</strong><br>
+    1. Type a name in the search box — filters across 528 members by name, street, or plot.<br>
+    2. Select the correct member from the dropdown.<br>
+    3. Once confirmed, the Python script appears above — copy and run it in PowerShell.
+  </div>
+</div>
+
+<!-- DATA QUALITY -->
 <div id="tab-dq" class="panel">
   <div class="page-hdr">
-    <div><h2>Data Quality</h2><p>Reconciliation flags and data health — April 2026</p></div>
-    <span class="page-hdr-badge">Balance: PASS</span>
+    <div><h2>Data Quality</h2><p>Matching quality and outstanding issues — May 2026</p></div>
+    <span class="page-hdr-badge">3 items for review</span>
   </div>
-
   <div class="kpi-row cols3">
-    <div class="kpi kg">
-      <div class="kl">Balance Check</div>
-      <div class="kv clg">PASS</div>
-      <div class="ks">R41,560.29 computed = statement closing</div>
-    </div>
-    <div class="kpi ka">
-      <div class="kl">Unmatched EFT Refs</div>
-      <div class="kv cla">2</div>
-      <div class="ks">EFT references not matching member database</div>
-    </div>
-    <div class="kpi kb">
-      <div class="kl">Unmatched Camera</div>
-      <div class="kv clb">2</div>
-      <div class="ks">Camera payers not found in Comprehensive list</div>
-    </div>
+    <div class="kpi kg"><div class="kl">Balance Check</div><div class="kv clg" style="font-size:24px">PASS</div><div class="ks">Computed R35,293.24 = Statement R35,293.24</div></div>
+    <div class="kpi ka"><div class="kl">Matched Transactions</div><div class="kv cla">25</div><div class="ks">EFTs + camera payments matched</div></div>
+    <div class="kpi kr"><div class="kl">Unmatched Credits</div><div class="kv clr">3</div><div class="ks">Pending administrator review</div></div>
   </div>
-
-  <div class="card">
-    <div class="ch"><h3>Quality Issues &amp; Notes</h3></div>
-    <div class="cb">
-      <div class="dq-grid" id="dq-grid"></div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:20px">
-    <div class="ch"><h3>Reconciliation Summary — April 2026</h3></div>
-    <div class="cb">
-      <table class="exp-table">
-        <tbody>
-          <tr><td style="font-weight:600">Opening balance (1 Apr 2026)</td><td style="text-align:right">R 42,267.90</td></tr>
-          <tr><td>DO batch total (actual from statement)</td><td style="text-align:right">R 19,995.00</td></tr>
-          <tr><td>EFT membership total (19 members)</td><td style="text-align:right">R 5,180.00</td></tr>
-          <tr><td>Camera members (8 members)</td><td style="text-align:right">R 8,850.00</td></tr>
-          <tr><td>Camera sponsors (2 sponsors)</td><td style="text-align:right">R 1,500.00</td></tr>
-          <tr><td style="font-weight:600">Total credits</td><td style="text-align:right;font-weight:600">R 35,525.00</td></tr>
-          <tr><td>Total debits + fees</td><td style="text-align:right;color:var(--red)">−R 36,232.61</td></tr>
-          <tr><td style="font-weight:600">Closing balance (computed)</td><td style="text-align:right;font-weight:600;color:var(--green)">R 41,560.29</td></tr>
-          <tr><td style="color:var(--green)">Statement closing balance</td><td style="text-align:right;color:var(--green)">R 41,560.29</td></tr>
-          <tr><td style="color:var(--green);font-weight:600">Balance check</td><td style="text-align:right;color:var(--green);font-weight:600">PASS ✓</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <div class="card"><div class="ch"><h3>Quality Issues</h3><span class="ch-sub">Flags requiring administrator attention</span></div><div class="cb"><div class="dq-grid" id="dq-grid"></div></div></div>
 </div>
 
 </main>
 </div>
 
 <script>
-// ── Navigation ──────────────────────────────────────────────────────────────
-function go(t){
-  document.querySelectorAll('.nav-btn,.panel').forEach(el=>el.classList.remove('active'));
-  document.querySelector('[onclick="go(\''+t+'\')"]').classList.add('active');
-  document.getElementById('tab-'+t).classList.add('active');
-}
+const SM=["Mar-25","Apr-25","May-25","Jun-25","Jul-25","Aug-25","Sep-25","Oct-25","Nov-25","Dec-25","Jan-26","Feb-26","Mar-26","Apr-26","May-26"];
+const doT=[22378,22591,20708,20078,19383,19233,18883,18533,18383,18383,18383,18583,19625,19625,19625];
+const eftT=[3800,3250,3700,3150,10250,7200,3700,3050,3900,3850,14450,8790,20320,5180,6710];
 
-// ── Chart.js base config ─────────────────────────────────────────────────────
+const streetsData=[
+  {street:"Short Road",residents:1,paying:1,not_paying:0,do_total:0,eft_total:170,rate:100.0},
+  {street:"Road No 7  (No Name)",residents:1,paying:1,not_paying:0,do_total:0,eft_total:200,rate:100.0},
+  {street:"Centre Road/cnr Orch",residents:1,paying:1,not_paying:0,do_total:0,eft_total:350,rate:100.0},
+  {street:"Fourth Street",residents:2,paying:1,not_paying:1,do_total:350,eft_total:0,rate:50.0},
+  {street:"Ohenimuri",residents:2,paying:1,not_paying:1,do_total:350,eft_total:0,rate:50.0},
+  {street:"Blignaut Street",residents:8,paying:3,not_paying:5,do_total:700,eft_total:350,rate:37.5},
+  {street:"Centre Road",residents:10,paying:3,not_paying:7,do_total:900,eft_total:0,rate:30.0},
+  {street:"First Avenue",residents:42,paying:11,not_paying:31,do_total:3176,eft_total:650,rate:26.2},
+  {street:"Eloff Street",residents:23,paying:6,not_paying:17,do_total:1673,eft_total:350,rate:26.1},
+  {street:"Nico Pelser",residents:22,paying:5,not_paying:17,do_total:1190,eft_total:1800,rate:22.7},
+  {street:"Green Road",residents:19,paying:4,not_paying:15,do_total:482,eft_total:750,rate:21.1},
+  {street:"De Wet Street",residents:30,paying:5,not_paying:25,do_total:1063,eft_total:450,rate:16.7},
+  {street:"Golf Course Road",residents:62,paying:10,not_paying:52,do_total:2563,eft_total:770,rate:16.1},
+  {street:"Fifth Street",residents:32,paying:5,not_paying:27,do_total:1875,eft_total:0,rate:15.6},
+  {street:"Third Ave.",residents:15,paying:2,not_paying:13,do_total:550,eft_total:0,rate:13.3},
+  {street:"Nel Street",residents:31,paying:4,not_paying:27,do_total:1300,eft_total:0,rate:12.9},
+  {street:"Eeufees Street",residents:26,paying:3,not_paying:23,do_total:700,eft_total:200,rate:11.5},
+  {street:"Hillside Road",residents:44,paying:5,not_paying:39,do_total:1383,eft_total:0,rate:11.4},
+  {street:"Road No 7",residents:55,paying:6,not_paying:49,do_total:1170,eft_total:470,rate:10.9},
+  {street:"Second Ave.",residents:34,paying:2,not_paying:32,do_total:200,eft_total:200,rate:5.9},
+  {street:"Orchard Road",residents:25,paying:0,not_paying:25,do_total:0,eft_total:0,rate:0.0},
+  {street:"Danie Theron",residents:14,paying:0,not_paying:14,do_total:0,eft_total:0,rate:0.0},
+  {street:"Hugenote Street",residents:10,paying:0,not_paying:10,do_total:0,eft_total:0,rate:0.0},
+  {street:"Road No 8",residents:8,paying:0,not_paying:8,do_total:0,eft_total:0,rate:0.0},
+  {street:"Angle Road",residents:4,paying:0,not_paying:4,do_total:0,eft_total:0,rate:0.0},
+  {street:"Road No 6",residents:2,paying:0,not_paying:2,do_total:0,eft_total:0,rate:0.0},
+  {street:"Main Street",residents:1,paying:0,not_paying:1,do_total:0,eft_total:0,rate:0.0},
+  {street:"Voortrekker St.",residents:1,paying:0,not_paying:1,do_total:0,eft_total:0,rate:0.0},
+  {street:"9th Street",residents:1,paying:0,not_paying:1,do_total:0,eft_total:0,rate:0.0},
+  {street:"Boomgate entrance?",residents:1,paying:0,not_paying:1,do_total:0,eft_total:0,rate:0.0},
+  {street:"Road No 7 (No Name)",residents:1,paying:0,not_paying:1,do_total:0,eft_total:0,rate:0.0},
+];
+
+const captains=[
+  {street:"Blignaut Street",captain:"",paying:3,residents:8,rate:37.5},
+  {street:"First Avenue",captain:"",paying:11,residents:42,rate:26.2},
+  {street:"Eloff Street",captain:"",paying:6,residents:23,rate:26.1},
+  {street:"Nico Pelser/Fourth St.",captain:"Paul Lottreaux",paying:5,residents:22,rate:22.7},
+  {street:"Green/Angle Road",captain:"Mark Thompson",paying:4,residents:19,rate:21.1},
+  {street:"De Wet Street",captain:"Richard Bentheim",paying:5,residents:30,rate:16.7},
+  {street:"Golf Course Road",captain:"Kevin",paying:10,residents:62,rate:16.1},
+  {street:"Fifth Street",captain:"Thulani Timile",paying:5,residents:32,rate:15.6},
+  {street:"Third Ave.",captain:"Chris Leeson",paying:2,residents:15,rate:13.3},
+  {street:"Nel Street",captain:"Cliff Webb",paying:4,residents:31,rate:12.9},
+  {street:"Eeufees Street",captain:"Rolf",paying:3,residents:26,rate:11.5},
+  {street:"Hillside Road",captain:"James Owens",paying:5,residents:44,rate:11.4},
+  {street:"Road No 7",captain:"Zama Hlongwane",paying:6,residents:55,rate:10.9},
+  {street:"Second Avenue",captain:"",paying:2,residents:34,rate:5.9},
+  {street:"Orchard Road",captain:"Anton",paying:0,residents:25,rate:0.0},
+  {street:"Hugenote Street",captain:"",paying:0,residents:10,rate:0.0},
+  {street:"Road No 8",captain:"",paying:0,residents:8,rate:0.0},
+  {street:"Voortrekker Street",captain:"",paying:0,residents:1,rate:0.0},
+  {street:"Road No 6",captain:"",paying:0,residents:2,rate:0.0},
+];
+
+const expenses=[
+  {date:"02/05/2026",ref:"MR SN LANGA MCAA Water",cat:"Utilities",amount:574.00,notes:"Water/utilities + R1 fee"},
+  {date:"04/05/2026",ref:"CAPITEC B MCA1 05-26",cat:"Bank fee",amount:462.45,notes:"DO service charge"},
+  {date:"04/05/2026",ref:"001 UNPAIDS/WEIERINGS STANDARD",cat:"Reversal",amount:350.00,notes:"DO bounced at Standard Bank"},
+  {date:"09/05/2026",ref:"TARY DESIGN MCAA",cat:"Camera purchase",amount:16820.06,notes:"Camera equipment + R2 fee"},
+  {date:"09/05/2026",ref:"Reimbursement Nel St Camera refund",cat:"Camera refund",amount:502.00,notes:"Nel Street camera refund + R2 fee"},
+  {date:"16/05/2026",ref:"001 UNPAIDS/WEIERINGS CAPITEC",cat:"Reversal",amount:170.00,notes:"G. van Jaarsveld EFT reversed"},
+  {date:"25/05/2026",ref:"LUKA MCAA FENCE",cat:"Maintenance",amount:4752.00,notes:"Fence repair + R2 fee"},
+  {date:"25/05/2026",ref:"Mengo Sibanda MCAA",cat:"Salary",amount:12502.00,notes:"Monthly salary + R2 fee"},
+  {date:"29/05/2026",ref:"ATM cash deposit fees",cat:"Bank fee",amount:29.54,notes:"54 Nico Pelser R22.40 + NEL ST ANDREW R7.14"},
+  {date:"31/05/2026",ref:"Month S/Fee",cat:"Bank fee",amount:50.00,notes:"Monthly account fee"},
+];
+
+const dqIssues=[
+  {type:"good",text:"Balance check PASSED — computed R35,293.24 matches statement closing balance exactly."},
+  {type:"good",text:"All 25 individual EFT and camera credit transactions matched successfully."},
+  {type:"warn",text:"DO batch actual (R19,805) exceeds April DO schedule (R19,625) by R180. One DO reversed (R350, WEIERINGS STANDARD, member unknown)."},
+  {type:"warn",text:"G. van Jaarsveld (GOL087-EFT, R170): EFT received 15/05 then reversed 16/05. NOT credited for May."},
+  {type:"warn",text:"GERALDINE EVANS paid twice (R200 on 06/05, R200 on 28/05). Name not found in Comprehensive list. Possible new resident."},
+  {type:"warn",text:"ABSA BANK Joseph 98 (R500, 29/05) — partial match. Joseph and Gwendolene Segoto (Row 434, Road No 7 plot 154) possible but unconfirmed."},
+];
+
+const unmatchedEFTs=[
+  {date:"06/05/2026",ref:"GERALDINE EVANS",amount:200},
+  {date:"28/05/2026",ref:"GERALDINE EVANS",amount:200},
+  {date:"29/05/2026",ref:"ABSA BANK Joseph 98",amount:500},
+];
+
+const MEMBERS=[{"row": 2, "name": "Jason Batalides", "addr": "Blignaut Street", "plot": "1"}, {"row": 3, "name": "Thom Khosa", "addr": "Hillside Road", "plot": "1"}, {"row": 4, "name": "S.Potgieter", "addr": "Hillside Road", "plot": "2"}, {"row": 5, "name": "Emmanual", "addr": "Hillside Road", "plot": "2"}, {"row": 6, "name": "Sim Mdab", "addr": "Centre Road", "plot": "3"}, {"row": 7, "name": "Thom Khosa?", "addr": "Hillside Road", "plot": "3"}, {"row": 8, "name": "Graham and Alison Webster", "addr": "Hillside Road", "plot": "4"}, {"row": 9, "name": "Rowan De Viliers", "addr": "Hillside Road", "plot": "4"}, {"row": 10, "name": "Dom Jacob", "addr": "Hillside Road", "plot": "4"}, {"row": 11, "name": "John", "addr": "Hillside Road", "plot": "5"}, {"row": 12, "name": "Karen", "addr": "Hillside Road", "plot": "5"}, {"row": 13, "name": "Beverley Stevens-King", "addr": "Hillside Road", "plot": "5"}, {"row": 14, "name": "Phumzile Bango", "addr": "Hillside Road", "plot": "5"}, {"row": 15, "name": "Nkosana Ngobese", "addr": "Hillside Road", "plot": "5"}, {"row": 16, "name": "Sefore Pitso-Setere", "addr": "Hugenote Street", "plot": "5"}, {"row": 17, "name": "Jonathan", "addr": "Main Street", "plot": "5"}, {"row": 18, "name": "VACANT", "addr": "Hillside Road", "plot": "6"}, {"row": 19, "name": "Matthew", "addr": "Hillside Road", "plot": "7"}, {"row": 20, "name": "Eugene", "addr": "Hugenote Street", "plot": "7"}, {"row": 21, "name": "Desire (Girls on the Move)", "addr": "Blignaut Street", "plot": "8"}, {"row": 22, "name": "Sibosisu Kheswa", "addr": "Golf Course Road", "plot": "8"}, {"row": 23, "name": "Robin Dryburgh", "addr": "Hillside Road", "plot": "8"}, {"row": 24, "name": "Miroslaw Benpkavic", "addr": "Danie Theron", "plot": "9"}, {"row": 25, "name": "Ian Long", "addr": "Blignaut Street", "plot": "10"}, {"row": 26, "name": "Heinrich Hendrikz", "addr": "Danie Theron", "plot": "10"}, {"row": 27, "name": "Jabulusile Shandu", "addr": "Golf Course Road", "plot": "10"}, {"row": 28, "name": "Byron Canham", "addr": "Hillside Road", "plot": "10"}, {"row": 29, "name": "John Carr", "addr": "Blignaut Street", "plot": "11"}, {"row": 30, "name": "VACANT", "addr": "Hillside Road", "plot": "11"}, {"row": 31, "name": "Adams", "addr": "Hugenote Street", "plot": "11"}, {"row": 32, "name": "Nkosinomusa Mpanza", "addr": "Blignaut Street", "plot": "12"}, {"row": 33, "name": "Russell Warden", "addr": "Danie Theron", "plot": "12"}, {"row": 34, "name": "Millicent", "addr": "Hillside Road", "plot": "12"}, {"row": 35, "name": "Tshepo Makoti", "addr": "Hillside Road", "plot": "12"}, {"row": 36, "name": "Jessica", "addr": "Hillside Road", "plot": "12"}, {"row": 37, "name": "Lele Pedroncelli", "addr": "Danie Theron", "plot": "13"}, {"row": 38, "name": "Fanie", "addr": "Hugenote Street", "plot": "13"}, {"row": 39, "name": "Colin Blandford", "addr": "Blignaut Street", "plot": "14"}, {"row": 40, "name": "Patrick Mudhara", "addr": "Blignaut Street", "plot": "14"}, {"row": 41, "name": "Thami Ndlovu", "addr": "Danie Theron", "plot": "14"}, {"row": 42, "name": "Conrad", "addr": "Centre Road", "plot": "15"}, {"row": 43, "name": "Ncedo Vilakazi", "addr": "Hugenote Street", "plot": "15"}, {"row": 44, "name": "Maureen Mhlongo", "addr": "Centre Road", "plot": "16"}, {"row": 45, "name": "Jeremy", "addr": "Centre Road", "plot": "18"}, {"row": 46, "name": "Karel", "addr": "Hugenote Street", "plot": "18"}, {"row": 47, "name": "Pieter Fourie", "addr": "Fifth Street", "plot": "19"}, {"row": 48, "name": "Stephanie Fourie", "addr": "Fifth Street", "plot": "19"}, {"row": 49, "name": "Andrew & Robyn Weeks", "addr": "Fifth Street", "plot": "20"}, {"row": 50, "name": "Lune Weeks", "addr": "Fifth Street", "plot": "20"}, {"row": 51, "name": "Angel Motloi", "addr": "Hugenote Street", "plot": "20"}, {"row": 52, "name": "Minnie", "addr": "Hugenote Street", "plot": "20"}, {"row": 53, "name": "E Nesbitt", "addr": "Fifth Street", "plot": "21"}, {"row": 54, "name": "Abrahams", "addr": "Fifth Street", "plot": "21"}, {"row": 55, "name": "Mariola Otomanska", "addr": "Fifth Street", "plot": "21"}, {"row": 56, "name": "Brian", "addr": "Fifth Street", "plot": "22"}, {"row": 57, "name": "Selway", "addr": "Fifth Street", "plot": "22"}, {"row": 58, "name": "Rene", "addr": "First Avenue", "plot": "22"}, {"row": 59, "name": "Faith", "addr": "First Avenue", "plot": "22"}, {"row": 60, "name": "David Sibanda", "addr": "Hillside Road", "plot": "22"}, {"row": 61, "name": "Sandile Mbanjwa", "addr": "Hugenote Street", "plot": "22"}, {"row": 62, "name": "Thembani Furumele", "addr": "Fifth Street", "plot": "23"}, {"row": 63, "name": "Quintus", "addr": "First Avenue", "plot": "23"}, {"row": 64, "name": "Leon Janse Van Vuuren", "addr": "First Avenue", "plot": "23"}, {"row": 65, "name": "K. Aboobaker", "addr": "Hugenote Street", "plot": "24"}, {"row": 66, "name": "Caid Schoeman", "addr": "Second Ave.", "plot": "24"}, {"row": 67, "name": "Terence Du Preeze", "addr": "Second Ave.", "plot": "24"}, {"row": 68, "name": "Kelvin Grobler", "addr": "Fifth Street", "plot": "25"}, {"row": 69, "name": "Alan & Louise Proudfoot", "addr": "Fifth Street", "plot": "25"}, {"row": 70, "name": "Angela Proudfoot", "addr": "Fifth Street", "plot": "25"}, {"row": 71, "name": "Alex Klein", "addr": "Fifth Street", "plot": "25"}, {"row": 72, "name": "May Lyna/ Judith", "addr": "First Avenue", "plot": "25"}, {"row": 73, "name": "Chevis Coetzee", "addr": "Voortrekker St.", "plot": "25"}, {"row": 74, "name": "Derek", "addr": "Second Ave.", "plot": "26"}, {"row": 75, "name": "Sonia Meysel", "addr": "Second Ave.", "plot": "26"}, {"row": 76, "name": "Nina van der Walt", "addr": "Second Ave.", "plot": "26"}, {"row": 77, "name": "Glenda", "addr": "Second Ave.", "plot": "26"}, {"row": 78, "name": "Ralf Meysel", "addr": "Second Ave.", "plot": "26"}, {"row": 79, "name": "Riaan", "addr": "First Avenue", "plot": "27"}, {"row": 80, "name": "Vusi & Lebogang Mojapelo", "addr": "Eloff Street", "plot": "28"}, {"row": 81, "name": "Philip", "addr": "Eeufees Street", "plot": "28"}, {"row": 82, "name": "Tshepang Mpitse", "addr": "Fifth Street", "plot": "28"}, {"row": 83, "name": "Clint Jardine", "addr": "Second Ave.", "plot": "28"}, {"row": 84, "name": "Erika", "addr": "First Avenue", "plot": "29"}, {"row": 85, "name": "Candice Smith", "addr": "Eloff Street", "plot": "30"}, {"row": 86, "name": "Annushka Rooza", "addr": "Eloff Street", "plot": "30"}, {"row": 87, "name": "Rochelle Campbell", "addr": "Second Ave.", "plot": "30"}, {"row": 88, "name": "Shannon Davids", "addr": "Second Ave.", "plot": "30"}, {"row": 89, "name": "Neil Johnson", "addr": "Second Ave.", "plot": "30"}, {"row": 90, "name": "Frank Duvenhage", "addr": "First Avenue", "plot": "31"}, {"row": 91, "name": "Fred", "addr": "First Avenue", "plot": "31"}, {"row": 92, "name": "John Hall", "addr": "First Avenue", "plot": "31"}, {"row": 93, "name": "Haydrine Waveley", "addr": "Eloff Street", "plot": "32"}, {"row": 94, "name": "Khanyisile Kama", "addr": "Eloff Street", "plot": "32"}, {"row": 95, "name": "Mel Nkosi", "addr": "Golf Course Road", "plot": "32"}, {"row": 96, "name": "Hugh and Charmaine Draai", "addr": "Fourth Street", "plot": "33"}, {"row": 97, "name": "Kim Baker", "addr": "Eloff Street", "plot": "34"}, {"row": 98, "name": "Thembisile Mazibuko", "addr": "Golf Course Road", "plot": "34"}, {"row": 99, "name": "Lendl Preston", "addr": "First Avenue", "plot": "35"}, {"row": 100, "name": "Anthony & Cameron Cox", "addr": "Fourth Street", "plot": "35"}, {"row": 101, "name": "Justice & Nozipho Makhado", "addr": "Eloff Street", "plot": "36"}, {"row": 102, "name": "Godfrey Berry", "addr": "Green Road", "plot": "36"}, {"row": 103, "name": "Msibi", "addr": "Nel Street", "plot": "36"}, {"row": 104, "name": "Palesa", "addr": "Nel Street", "plot": "36"}, {"row": 105, "name": "Tom Pearson", "addr": "Eloff Street", "plot": "37"}, {"row": 106, "name": "Peter Kairuz", "addr": "First Avenue", "plot": "37"}, {"row": 107, "name": "David", "addr": "Green Road", "plot": "37"}, {"row": 108, "name": "Tanya", "addr": "Green Road", "plot": "37"}, {"row": 109, "name": "Mark Thompson", "addr": "Green Road", "plot": "37"}, {"row": 110, "name": "Kuwut Herbst", "addr": "Green Road", "plot": "37"}, {"row": 111, "name": "AF Campbell", "addr": "9th Street", "plot": "37"}, {"row": 112, "name": "Bunty & Lindsay Coryndon-Baker", "addr": "Eloff Street", "plot": "38"}, {"row": 113, "name": "Leticia & Bennie Mommen", "addr": "Golf Course Road", "plot": "38"}, {"row": 114, "name": "Irshaad / Ayesha", "addr": "Green Road", "plot": "38"}, {"row": 115, "name": "Stone Hedge", "addr": "Second Ave.", "plot": "38"}, {"row": 116, "name": "Jose Pinto", "addr": "First Avenue", "plot": "39"}, {"row": 117, "name": "Belinda Groenewald", "addr": "Green Road", "plot": "39"}, {"row": 118, "name": "Hischiff Groenewald", "addr": "Green Road", "plot": "39"}, {"row": 119, "name": "Steven Pretorius", "addr": "Green Road", "plot": "39"}, {"row": 120, "name": "Sisa Majilajela", "addr": "Green Road", "plot": "39"}, {"row": 121, "name": "Bonfale Muchono", "addr": "De Wet Street", "plot": "40"}, {"row": 122, "name": "Billy Meysel", "addr": "Golf Course Road", "plot": "40"}, {"row": 123, "name": "B Meysel", "addr": "Golf Course Road", "plot": "40"}, {"row": 124, "name": "Ian Yellowley", "addr": "Green Road", "plot": "40"}, {"row": 125, "name": "T Magua", "addr": "Green Road", "plot": "40"}, {"row": 126, "name": "Richard Shearer", "addr": "Second Ave.", "plot": "40"}, {"row": 127, "name": "Susan Shearer", "addr": "Second Ave.", "plot": "40"}, {"row": 128, "name": "Steve Messenger/Juanita", "addr": "First Avenue", "plot": "41"}, {"row": 129, "name": "Jimmy", "addr": "First Avenue", "plot": "41"}, {"row": 130, "name": "Laurie Boycan Hoffman", "addr": "Green Road", "plot": "41"}, {"row": 131, "name": "Greg and Paula Peters", "addr": "Eloff Street", "plot": "42"}, {"row": 132, "name": "M September", "addr": "Eeufees Street", "plot": "42"}, {"row": 133, "name": "Pastor B", "addr": "Green Road", "plot": "42"}, {"row": 134, "name": "Dirk Louw", "addr": "Hillside Road", "plot": "42"}, {"row": 135, "name": "Rob Roos", "addr": "Second Ave.", "plot": "42"}, {"row": 136, "name": "Celeste Webster", "addr": "Second Ave.", "plot": "42"}, {"row": 137, "name": "Greg Erasmus", "addr": "Second Ave.", "plot": "42"}, {"row": 138, "name": "Robert", "addr": "Second Ave.", "plot": "42"}, {"row": 139, "name": "Eddy Strauss", "addr": "Eloff Street", "plot": "43"}, {"row": 140, "name": "Shaun Traut", "addr": "First Avenue", "plot": "43"}, {"row": 141, "name": "Jade", "addr": "First Avenue", "plot": "43"}, {"row": 142, "name": "Nathan Cooks", "addr": "Nico Pelser", "plot": "44"}, {"row": 143, "name": "Cayden Le Roux", "addr": "Second Ave.", "plot": "44"}, {"row": 144, "name": "Mpho Thanjekwayo", "addr": "Eloff Street", "plot": "45"}, {"row": 145, "name": "Mrs. J de Lange", "addr": "Green Road", "plot": "45"}, {"row": 146, "name": "Thulani Khanyile", "addr": "Eeufees Street", "plot": "46"}, {"row": 147, "name": "Khanyile Busisiwe", "addr": "Eeufees Street", "plot": "46"}, {"row": 148, "name": "Sean Dauberman", "addr": "Eeufees Street", "plot": "46"}, {"row": 149, "name": "Glynis Louw", "addr": "Eeufees Street", "plot": "46"}, {"row": 150, "name": "John Louw", "addr": "Eeufees Street", "plot": "46"}, {"row": 151, "name": "Estelle Gouws", "addr": "Nico Pelser", "plot": "46"}, {"row": 152, "name": "Rassie and Bella", "addr": "Nico Pelser", "plot": "46"}, {"row": 153, "name": "Gordon Kairuz and Nicole Gouws", "addr": "Nico Pelser", "plot": "46"}, {"row": 154, "name": "Bev Prins", "addr": "Second Ave.", "plot": "46"}, {"row": 155, "name": "Lidia Bukes", "addr": "Eloff Street", "plot": "47"}, {"row": 156, "name": "Mervin Smit", "addr": "Eloff Street", "plot": "47"}, {"row": 157, "name": "Lindie Plaatjies", "addr": "Eeufees Street", "plot": "47"}, {"row": 158, "name": "Raymond Poonen", "addr": "Eeufees Street", "plot": "47"}, {"row": 159, "name": "Mrs DE Hahn", "addr": "Eeufees Street", "plot": "47"}, {"row": 160, "name": "Victor Petrus", "addr": "Eeufees Street", "plot": "47"}, {"row": 161, "name": "Sasha Holland", "addr": "Eeufees Street", "plot": "47"}, {"row": 162, "name": "Pearl Holland", "addr": "Eeufees Street", "plot": "47"}, {"row": 163, "name": "Stella Nemafukani", "addr": "Golf Course Road", "plot": "48"}, {"row": 164, "name": "Khumalo Stuart", "addr": "Golf Course Road", "plot": "48"}, {"row": 165, "name": "Katelyn", "addr": "Green Road", "plot": "48"}, {"row": 166, "name": "Forsman", "addr": "Green Road", "plot": "48"}, {"row": 167, "name": "L Turner", "addr": "Green Road", "plot": "48"}, {"row": 168, "name": "Perfect Zama Ndlovu (Security)", "addr": "Nico Pelser", "plot": "48"}, {"row": 169, "name": "David Lewis", "addr": "Second Ave.", "plot": "48"}, {"row": 170, "name": "Makhotso", "addr": "Eloff Street", "plot": "49"}, {"row": 171, "name": "Ratheo Molebatsi", "addr": "First Avenue", "plot": "49"}, {"row": 172, "name": "Bruce Magill", "addr": "First Avenue", "plot": "49"}, {"row": 173, "name": "Louis Mathew", "addr": "Golf Course Road", "plot": "49"}, {"row": 174, "name": "Church", "addr": "Golf Course Road", "plot": "49"}, {"row": 175, "name": "Romias Ngzularto", "addr": "Second Ave.", "plot": "49"}, {"row": 176, "name": "Katlego Matthews", "addr": "De Wet Street", "plot": "50"}, {"row": 177, "name": "Silvan", "addr": "Golf Course Road", "plot": "50"}, {"row": 178, "name": "Chris and Bernadette Momple", "addr": "Nico Pelser", "plot": "50"}, {"row": 179, "name": "Caleb Daniels", "addr": "Second Ave.", "plot": "50"}, {"row": 180, "name": "Yolundie Danies", "addr": "Second Ave.", "plot": "50"}, {"row": 181, "name": "Sarita", "addr": "Eloff Street", "plot": "51"}, {"row": 182, "name": "Leo van Niel", "addr": "Eloff Street", "plot": "51"}, {"row": 183, "name": "Janos Herceg", "addr": "Centre Road", "plot": "51"}, {"row": 184, "name": "K.L Due Preez", "addr": "Centre Road", "plot": "51"}, {"row": 185, "name": "Options (Pty)Ltd", "addr": "First Avenue", "plot": "51"}, {"row": 186, "name": "Daphne Pereira", "addr": "First Avenue", "plot": "51"}, {"row": 187, "name": "Jorge Perreira", "addr": "First Avenue", "plot": "51"}, {"row": 188, "name": "K.L Due Preez", "addr": "Golf Course Road", "plot": "51"}, {"row": 189, "name": "Stephenie Herceg", "addr": "Golf Course Road", "plot": "51"}, {"row": 190, "name": "KM Makhubo", "addr": "Centre Road", "plot": "52"}, {"row": 191, "name": "Sylvia", "addr": "Centre Road", "plot": "52"}, {"row": 192, "name": "Brandon Koegelenberg", "addr": "Fifth Street", "plot": "52"}, {"row": 193, "name": "Angelo Pereira", "addr": "Fifth Street", "plot": "52"}, {"row": 194, "name": "Tino Windhill", "addr": "Fifth Street", "plot": "52"}, {"row": 195, "name": "C Windhill", "addr": "Fifth Street", "plot": "52"}, {"row": 196, "name": "Empty plot? - still building", "addr": "Nico Pelser", "plot": "52"}, {"row": 197, "name": "DF Bukes (Niel)", "addr": "Eloff Street", "plot": "53"}, {"row": 198, "name": "China", "addr": "Fifth Street", "plot": "53"}, {"row": 199, "name": "Eschelle Wathen", "addr": "Fifth Street", "plot": "53"}, {"row": 200, "name": "Martin Gee", "addr": "Hillside Road", "plot": "53"}, {"row": 201, "name": "Kevin Gee", "addr": "Hillside Road", "plot": "53"}, {"row": 202, "name": "Chris Swanepoel", "addr": "Fifth Street", "plot": "54"}, {"row": 203, "name": "Tashinga/Millicent Nkosi", "addr": "Golf Course Road", "plot": "54"}, {"row": 204, "name": "Buhle Mbatha", "addr": "Golf Course Road", "plot": "54"}, {"row": 205, "name": "Richard and Pumla Mashele", "addr": "Nico Pelser", "plot": "54"}, {"row": 206, "name": "Johan Swanepoel", "addr": "Second Ave.", "plot": "54"}, {"row": 207, "name": "Zainub", "addr": "Golf Course Road", "plot": "55"}, {"row": 208, "name": "Zainab Khoele", "addr": "Hillside Road", "plot": "55"}, {"row": 209, "name": "Banele Mahlangu", "addr": "Third Ave.", "plot": "55"}, {"row": 210, "name": "Kagiso Mahlangu", "addr": "Third Ave.", "plot": "55"}, {"row": 211, "name": "Keketso Mahlangu", "addr": "Third Ave.", "plot": "55"}, {"row": 212, "name": "Ramakhunou Mokhele", "addr": "Golf Course Road", "plot": "56"}, {"row": 213, "name": "Homi", "addr": "Golf Course Road", "plot": "56"}, {"row": 214, "name": "Khothatso Mokhele", "addr": "Golf Course Road", "plot": "56"}, {"row": 215, "name": "Lauren & Tiyani", "addr": "Nico Pelser", "plot": "56"}, {"row": 216, "name": "Bacon Mahope", "addr": "Second Ave.", "plot": "56"}, {"row": 217, "name": "Lore-lei Cerqueira", "addr": "Hillside Road", "plot": "57"}, {"row": 218, "name": "M Msimango", "addr": "Third Ave.", "plot": "57"}, {"row": 219, "name": "Hunters Fitment(Pty) Ltd.", "addr": "Third Ave.", "plot": "57"}, {"row": 220, "name": "Bongani Baloyi", "addr": "Golf Course Road", "plot": "58"}, {"row": 221, "name": "Lungelo Sibelo", "addr": "Nico Pelser", "plot": "58"}, {"row": 222, "name": "Nozisi (Nono) Sibeko & Given Sibeko", "addr": "Nico Pelser", "plot": "58"}, {"row": 223, "name": "John & Karin Potter (Benches Direct)", "addr": "Eloff Street", "plot": "59"}, {"row": 224, "name": "Cindy Wills", "addr": "Fifth Street", "plot": "59"}, {"row": 225, "name": "Rebecca Goncalves", "addr": "Fifth Street", "plot": "59"}, {"row": 226, "name": "Allison", "addr": "Golf Course Road", "plot": "59"}, {"row": 227, "name": "Stacey Ireland", "addr": "Hillside Road", "plot": "59"}, {"row": 228, "name": "Gareth", "addr": "Hillside Road", "plot": "59"}, {"row": 229, "name": "Sonya Herbst", "addr": "Fifth Street", "plot": "60"}, {"row": 230, "name": "James Owens", "addr": "Golf Course Road", "plot": "60"}, {"row": 231, "name": "Jess", "addr": "Golf Course Road", "plot": "60"}, {"row": 232, "name": "Nelson Makgobe", "addr": "Eloff Street", "plot": "61"}, {"row": 233, "name": "Peter", "addr": "Fifth Street", "plot": "61"}, {"row": 234, "name": "Basil", "addr": "Fifth Street", "plot": "61"}, {"row": 235, "name": "Jason", "addr": "Fifth Street", "plot": "61"}, {"row": 236, "name": "Lee", "addr": "Fifth Street", "plot": "61"}, {"row": 237, "name": "Tyrone and Carine", "addr": "Golf Course Road", "plot": "61"}, {"row": 238, "name": "Wynand", "addr": "Hillside Road", "plot": "61"}, {"row": 239, "name": "Stacey Susan", "addr": "Hillside Road", "plot": "61"}, {"row": 240, "name": "Kyle Wallace", "addr": "Hillside Road", "plot": "61"}, {"row": 241, "name": "Shannon", "addr": "Third Ave.", "plot": "61"}, {"row": 242, "name": "Sheldon Schostar", "addr": "Golf Course Road", "plot": "62"}, {"row": 243, "name": "Peggy Bennett", "addr": "Nico Pelser", "plot": "62"}, {"row": 244, "name": "U Ncube", "addr": "Nico Pelser", "plot": "62"}, {"row": 245, "name": "Rajesh Umrigar", "addr": "First Avenue", "plot": "63"}, {"row": 246, "name": "Simon", "addr": "Golf Course Road", "plot": "63"}, {"row": 247, "name": "Intiaz", "addr": "Hillside Road", "plot": "63"}, {"row": 248, "name": "Aslam Khan", "addr": "Hillside Road", "plot": "63"}, {"row": 249, "name": "A. Kirhy", "addr": "Third Ave.", "plot": "63"}, {"row": 250, "name": "Mduduzi Dube", "addr": "Third Ave.", "plot": "63"}, {"row": 251, "name": "Cyril Khumalo", "addr": "First Avenue", "plot": "64"}, {"row": 252, "name": "Kevin and Angela Hellyer", "addr": "Golf Course Road", "plot": "64"}, {"row": 253, "name": "Chickens", "addr": "Hillside Road", "plot": "65"}, {"row": 254, "name": "Reginald Kairuz and Lucielle De Klerk", "addr": "Nico Pelser", "plot": "65"}, {"row": 255, "name": "Peter Paget (T)", "addr": "Nico Pelser", "plot": "65"}, {"row": 256, "name": "Jayden De Klerk", "addr": "Nico Pelser", "plot": "65"}, {"row": 257, "name": "J. de Maiton", "addr": "Third Ave.", "plot": "65"}, {"row": 258, "name": "Alexander", "addr": "Third Ave.", "plot": "65"}, {"row": 259, "name": "Martin and Yolande Taute", "addr": "Golf Course Road", "plot": "66"}, {"row": 260, "name": "Bradley and Sharon Bantjes", "addr": "Nico Pelser", "plot": "66"}, {"row": 261, "name": "May Gibbs", "addr": "Nico Pelser", "plot": "66"}, {"row": 262, "name": "Geoff White", "addr": "Eeufees Street", "plot": "67"}, {"row": 263, "name": "R. Worden", "addr": "Hillside Road", "plot": "67"}, {"row": 264, "name": "Izetta de Sa", "addr": "Hillside Road", "plot": "67"}, {"row": 265, "name": "Paulos Ngwenya", "addr": "Nico Pelser", "plot": "67"}, {"row": 266, "name": "Patrick Radzilani", "addr": "Golf Course Road", "plot": "68"}, {"row": 267, "name": "Sarel and Vicky Badenhorst", "addr": "Nel Street", "plot": "68"}, {"row": 268, "name": "Jason and Steven Groenewald", "addr": "Eeufees Street", "plot": "69"}, {"row": 269, "name": "Simone Groenewald", "addr": "Eeufees Street", "plot": "69"}, {"row": 270, "name": "Engela Smit", "addr": "Third Ave.", "plot": "69"}, {"row": 271, "name": "Christopher Leeson", "addr": "Third Ave.", "plot": "69"}, {"row": 272, "name": "Wesley Steenkamp", "addr": "Third Ave.", "plot": "69"}, {"row": 273, "name": "Jennifer diers", "addr": "Golf Course Road", "plot": "70"}, {"row": 274, "name": "Mike Diers", "addr": "Golf Course Road", "plot": "70"}, {"row": 275, "name": "Darren Cornish", "addr": "Golf Course Road", "plot": "70"}, {"row": 276, "name": "J Diers", "addr": "Golf Course Road", "plot": "70"}, {"row": 277, "name": "Karen Dednam", "addr": "Golf Course Road", "plot": "70"}, {"row": 278, "name": "Deon Kruis", "addr": "Nel Street", "plot": "70"}, {"row": 279, "name": "Chanell Kruis", "addr": "Nel Street", "plot": "70"}, {"row": 280, "name": "Philip Kruis", "addr": "Nel Street", "plot": "70"}, {"row": 281, "name": "Gareth Norton", "addr": "Eeufees Street", "plot": "71"}, {"row": 282, "name": "Adrian Groenewald", "addr": "Hillside Road", "plot": "71"}, {"row": 283, "name": "Dennis van der Merwe", "addr": "Third Ave.", "plot": "71"}, {"row": 284, "name": "R Richardson", "addr": "Golf Course Road", "plot": "72"}, {"row": 285, "name": "OJ Richardson", "addr": "Golf Course Road", "plot": "72"}, {"row": 286, "name": "Hollins", "addr": "Nel Street", "plot": "72"}, {"row": 287, "name": "McDonald", "addr": "Nel Street", "plot": "72"}, {"row": 288, "name": "Shawn", "addr": "Eeufees Street", "plot": "73"}, {"row": 289, "name": "Sayed Zainulabidien", "addr": "Hillside Road", "plot": "73"}, {"row": 290, "name": "Melinda van der Merwe", "addr": "Third Ave.", "plot": "73"}, {"row": 291, "name": "Andy and Sonya Delahunty", "addr": "Golf Course Road", "plot": "74"}, {"row": 292, "name": "Jethro Booysen", "addr": "Golf Course Road", "plot": "74"}, {"row": 293, "name": "Danie Van Zyl", "addr": "Golf Course Road", "plot": "74"}, {"row": 294, "name": "Donovan Van Zyl", "addr": "Golf Course Road", "plot": "74"}, {"row": 295, "name": "Barbara", "addr": "Eeufees Street", "plot": "75"}, {"row": 296, "name": "Valin", "addr": "Eeufees Street", "plot": "75"}, {"row": 297, "name": "Patrick", "addr": "Eeufees Street", "plot": "75"}, {"row": 298, "name": "Barbara Fegen", "addr": "Hillside Road", "plot": "75"}, {"row": 299, "name": "Eric De Witt", "addr": "Hillside Road", "plot": "75"}, {"row": 300, "name": "MTM Kyumgil", "addr": "Hillside Road", "plot": "75"}, {"row": 301, "name": "Nick and Michelle Kelly", "addr": "Second Ave.", "plot": "75"}, {"row": 302, "name": "Ben Van Niekerk", "addr": "Second Ave.", "plot": "75"}, {"row": 303, "name": "Thom Khosa", "addr": "Hillside Road", "plot": "76"}, {"row": 304, "name": "Robert", "addr": "Nel Street", "plot": "76"}, {"row": 305, "name": "Valin Smith", "addr": "Nel Street", "plot": "76"}, {"row": 306, "name": "Dennis and Heather Ryder", "addr": "Eeufees Street", "plot": "77"}, {"row": 307, "name": "Fiona van der Linde", "addr": "Golf Course Road", "plot": "77"}, {"row": 308, "name": "Petrus Johannes Potgieter (Ronnie)", "addr": "Short Road", "plot": "77"}, {"row": 309, "name": "Peter & Andrea Petzer", "addr": "Golf Course Road", "plot": "78"}, {"row": 310, "name": "Nathaniel Ramsden", "addr": "Nel Street", "plot": "78"}, {"row": 311, "name": "Carlo & Shoneez Wright", "addr": "Golf Course Road", "plot": "79"}, {"row": 312, "name": "Cayden Le Roux additional property", "addr": "Golf Course Road", "plot": "79"}, {"row": 313, "name": "Nkosi Nkosi", "addr": "Golf Course Road", "plot": "80"}, {"row": 314, "name": "A Kennelly", "addr": "Nel Street", "plot": "80"}, {"row": 315, "name": "Denis Lev", "addr": "Orchard Road", "plot": "80"}, {"row": 316, "name": "Andre Brummer", "addr": "Danie Theron", "plot": "81"}, {"row": 317, "name": "Erin Lubbe", "addr": "Danie Theron", "plot": "81"}, {"row": 318, "name": "Bevan Lubbe", "addr": "Danie Theron", "plot": "81"}, {"row": 319, "name": "Johan", "addr": "Danie Theron", "plot": "81"}, {"row": 320, "name": "M. Bodibe / Faki", "addr": "Golf Course Road", "plot": "81"}, {"row": 321, "name": "Bonolo Bodibe", "addr": "Golf Course Road", "plot": "81"}, {"row": 322, "name": "Marumo Bodibe", "addr": "Golf Course Road", "plot": "81"}, {"row": 323, "name": "Terry Shapiro", "addr": "Danie Theron", "plot": "82"}, {"row": 324, "name": "Aryna Kauffmann LSMJ Jewellers", "addr": "Orchard Road", "plot": "82"}, {"row": 325, "name": "Phillipina", "addr": "Orchard Road", "plot": "82"}, {"row": 326, "name": "Phillip De Klerk", "addr": "Orchard Road", "plot": "82"}, {"row": 327, "name": "Yonus", "addr": "Golf Course Road", "plot": "83"}, {"row": 328, "name": "Robert Crowe", "addr": "Golf Course Road", "plot": "83"}, {"row": 329, "name": "Graham Thiele", "addr": "Nel Street", "plot": "83"}, {"row": 330, "name": "Naz Rossouw", "addr": "Nel Street", "plot": "83"}, {"row": 331, "name": "Gilda & Louis Achadinha", "addr": "Nico Pelser", "plot": "84"}, {"row": 332, "name": "Israel", "addr": "Orchard Road", "plot": "84"}, {"row": 333, "name": "Muzi Thabethe", "addr": "Orchard Road", "plot": "84"}, {"row": 334, "name": "Mothosonke Thabethe", "addr": "Orchard Road", "plot": "84"}, {"row": 335, "name": "Previn Naidoo", "addr": "Golf Course Road", "plot": "85"}, {"row": 336, "name": "Waza Waiza", "addr": "Nel Street", "plot": "85"}, {"row": 337, "name": "Gale Webb (Montage Agencies)", "addr": "Nel Street", "plot": "86"}, {"row": 338, "name": "Thapelo", "addr": "Orchard Road", "plot": "86"}, {"row": 339, "name": "Arlole Len", "addr": "De Wet Street", "plot": "87"}, {"row": 340, "name": "L Pappas", "addr": "De Wet Street", "plot": "87"}, {"row": 341, "name": "Gareth van Jaarsveld", "addr": "Golf Course Road", "plot": "87"}, {"row": 342, "name": "K Bland", "addr": "Nel Street", "plot": "88"}, {"row": 343, "name": "Libera", "addr": "Orchard Road", "plot": "88"}, {"row": 344, "name": "Virginia Qobo", "addr": "De Wet Street", "plot": "89"}, {"row": 345, "name": "Geraldine Peters", "addr": "Golf Course Road", "plot": "89"}, {"row": 346, "name": "Sally Mulligan", "addr": "Golf Course Road", "plot": "89"}, {"row": 347, "name": "Neante", "addr": "Nel Street", "plot": "90"}, {"row": 348, "name": "Tracey Van Niekerk", "addr": "Nel Street", "plot": "90"}, {"row": 349, "name": "Kyle", "addr": "Nel Street", "plot": "90"}, {"row": 350, "name": "Muhammad", "addr": "Orchard Road", "plot": "90"}, {"row": 351, "name": "Evelyn Keartland", "addr": "De Wet Street", "plot": "91"}, {"row": 352, "name": "Nigel Wildman", "addr": "Golf Course Road", "plot": "91"}, {"row": 353, "name": "Isobel Van Der Motten", "addr": "Nel Street", "plot": "92"}, {"row": 354, "name": "Richard & Susan Bentheim", "addr": "De Wet Street", "plot": "93"}, {"row": 355, "name": "Daphne Bentheim", "addr": "De Wet Street", "plot": "93"}, {"row": 356, "name": "Richard Moore-Moores Motor Spares", "addr": "Golf Course Road", "plot": "93"}, {"row": 357, "name": "Moira Moore", "addr": "Golf Course Road", "plot": "93"}, {"row": 358, "name": "Eleaneri", "addr": "Nel Street", "plot": "94"}, {"row": 359, "name": "Edwin Abrahamse", "addr": "Nel Street", "plot": "94"}, {"row": 360, "name": "Debbie Rautenbach (Liesl Seymore)", "addr": "Nel Street", "plot": "94"}, {"row": 361, "name": "Shelly Rautenbach", "addr": "Nel Street", "plot": "94"}, {"row": 362, "name": "Changa", "addr": "Orchard Road", "plot": "94"}, {"row": 363, "name": "M Haseb", "addr": "De Wet Street", "plot": "95"}, {"row": 364, "name": "Haris Saqib", "addr": "De Wet Street", "plot": "95"}, {"row": 365, "name": "Vacant Stand", "addr": "Golf Course Road", "plot": "95"}, {"row": 366, "name": "Alan Benington", "addr": "Centre Road", "plot": "96"}, {"row": 367, "name": "Andrew Chapman", "addr": "Nel Street", "plot": "96"}, {"row": 368, "name": "Chantel", "addr": "De Wet Street", "plot": "97"}, {"row": 369, "name": "John Allsop", "addr": "De Wet Street", "plot": "97"}, {"row": 370, "name": "Mandy Tucker", "addr": "De Wet Street", "plot": "97"}, {"row": 371, "name": "Bev van der Walt", "addr": "De Wet Street", "plot": "97"}, {"row": 372, "name": "Simon Tekela", "addr": "Orchard Road", "plot": "97"}, {"row": 373, "name": "Iman Ntenni", "addr": "Nel Street", "plot": "98"}, {"row": 374, "name": "Gareth Woods", "addr": "Orchard Road", "plot": "98"}, {"row": 375, "name": "Charles Vosloo", "addr": "Orchard Road", "plot": "98"}, {"row": 376, "name": "Zandile Mabaso", "addr": "Boomgate entrance?", "plot": "98"}, {"row": 377, "name": "Linda Jordaan", "addr": "De Wet Street", "plot": "99"}, {"row": 378, "name": "Gregg", "addr": "Nel Street", "plot": "100"}, {"row": 379, "name": "Mbulelo Mbenenge", "addr": "Nel Street", "plot": "100"}, {"row": 380, "name": "Miriam (Dolla) Spalding", "addr": "Orchard Road", "plot": "100"}, {"row": 381, "name": "Khumbula Dlamini", "addr": "Orchard Road", "plot": "100"}, {"row": 382, "name": "Paul & Liz Lottreaux (Celtic Software)", "addr": "De Wet Street", "plot": "101"}, {"row": 383, "name": "Henry Strydom", "addr": "Orchard Road", "plot": "101"}, {"row": 384, "name": "Tokelo Motsoane", "addr": "Nico Pelser", "plot": "102"}, {"row": 385, "name": "Marc and Barbara Ridderhof", "addr": "Orchard Road", "plot": "102"}, {"row": 386, "name": "Johnny and Anya Knoetze", "addr": "Nico Pelser", "plot": "103"}, {"row": 387, "name": "Dr Bert Rokebrand", "addr": "Orchard Road", "plot": "103"}, {"row": 388, "name": "Jason Roberts", "addr": "Orchard Road", "plot": "103"}, {"row": 389, "name": "Aaqil Pariachi", "addr": "De Wet Street", "plot": "104"}, {"row": 390, "name": "Zaakir Motala", "addr": "De Wet Street", "plot": "104"}, {"row": 391, "name": "Debbie Wilson", "addr": "Orchard Road", "plot": "104"}, {"row": 392, "name": "Bob Mclean", "addr": "Orchard Road", "plot": "104"}, {"row": 393, "name": "Anton Boerner (Owner)", "addr": "Orchard Road", "plot": "104"}, {"row": 394, "name": "Mike Naude", "addr": "Orchard Road", "plot": "105"}, {"row": 395, "name": "Sean Nadig", "addr": "De Wet Street", "plot": "106"}, {"row": 396, "name": "Nazam", "addr": "De Wet Street", "plot": "108"}, {"row": 397, "name": "Rochelle Hokai", "addr": "Orchard Road", "plot": "108"}, {"row": 398, "name": "Vanesse Wilson", "addr": "First Avenue", "plot": "109"}, {"row": 399, "name": "Sifiso Masango / Tumiso", "addr": "De Wet Street", "plot": "110"}, {"row": 400, "name": "Gill Rowley", "addr": "First Avenue", "plot": "111"}, {"row": 401, "name": "Stephanie van Heerden", "addr": "First Avenue", "plot": "111"}, {"row": 402, "name": "Anna Botha", "addr": "First Avenue", "plot": "111"}, {"row": 403, "name": "Ben", "addr": "De Wet Street", "plot": "112"}, {"row": 404, "name": "G.Pitamber", "addr": "First Avenue", "plot": "113"}, {"row": 405, "name": "Tadiwanashe Muchono", "addr": "De Wet Street", "plot": "114"}, {"row": 406, "name": "Yolandali Kgomo", "addr": "De Wet Street", "plot": "114"}, {"row": 407, "name": "Jaan", "addr": "De Wet Street", "plot": "114"}, {"row": 408, "name": "Prosper Nurambinda", "addr": "De Wet Street", "plot": "114"}, {"row": 409, "name": "Hazel Titterton", "addr": "First Avenue", "plot": "115"}, {"row": 410, "name": "AT Nursery", "addr": "First Avenue", "plot": "115"}, {"row": 411, "name": "Phil & Chanty Gomes", "addr": "De Wet Street", "plot": "116"}, {"row": 412, "name": "Luca Gomes", "addr": "De Wet Street", "plot": "116"}, {"row": 413, "name": "Nandi", "addr": "Danie Theron", "plot": "117"}, {"row": 414, "name": "Patricia", "addr": "Danie Theron", "plot": "117"}, {"row": 415, "name": "Thulani Timile", "addr": "Danie Theron", "plot": "117"}, {"row": 416, "name": "Mervyn Frames", "addr": "Danie Theron", "plot": "118"}, {"row": 417, "name": "Udo Scheffler", "addr": "Road No 8", "plot": "139"}, {"row": 418, "name": "Florens", "addr": "Road No 8", "plot": "139"}, {"row": 419, "name": "J. Hall", "addr": "Road No 8", "plot": "139"}, {"row": 420, "name": "Peter Mafatla", "addr": "Road No 8", "plot": "140"}, {"row": 421, "name": "Rudi & Johan Naude", "addr": "Road No 8", "plot": "142"}, {"row": 422, "name": "Rachel Balthazar", "addr": "Road No 8", "plot": "143"}, {"row": 423, "name": "Irens Balthazar", "addr": "Road No 8", "plot": "143"}, {"row": 424, "name": "Neil", "addr": "Road No 6", "plot": "143"}, {"row": 425, "name": "Keystone Dhlumo", "addr": "Road No 8", "plot": "144"}, {"row": 426, "name": "Bongani Makhathini", "addr": "Golf Course Road", "plot": "144"}, {"row": 427, "name": "Nomkhitha Makhathini", "addr": "Golf Course Road", "plot": "144"}, {"row": 428, "name": "Frans and Barendina Du Plessis", "addr": "Road No 7", "plot": "149"}, {"row": 429, "name": "Hendrik Strydom", "addr": "Road No 7", "plot": "150"}, {"row": 430, "name": "Henry and Catarina Moorcroft", "addr": "Road No 7", "plot": "151"}, {"row": 431, "name": "HES Moorcraft", "addr": "Road No 7", "plot": "151"}, {"row": 432, "name": "Zama and Petunia Hlongwane", "addr": "Road No 7", "plot": "152"}, {"row": 433, "name": "Zama and Petunia Hlongwane", "addr": "Road No 7", "plot": "153"}, {"row": 434, "name": "Joseph and Gwendolene Segoto", "addr": "Road No 7", "plot": "154"}, {"row": 435, "name": "CS Hentiq 1151 (Pty) Ltd", "addr": "Road No 7", "plot": "155"}, {"row": 436, "name": "Chippy Projects CC", "addr": "Road No 7", "plot": "156"}, {"row": 437, "name": "Elsa Odendaal", "addr": "Road No 7", "plot": "179"}, {"row": 438, "name": "Precious Place of Hope", "addr": "Road No 7", "plot": "240"}, {"row": 439, "name": "Noleen Dons", "addr": "Road No 7", "plot": "241"}, {"row": 440, "name": "Nsova Mashaba", "addr": "Road No 7", "plot": "242"}, {"row": 441, "name": "Venessa Venter", "addr": "Road No 7", "plot": "243"}, {"row": 442, "name": "Charmaine De Beer", "addr": "Road No 7", "plot": "243"}, {"row": 443, "name": "Andre De Vries", "addr": "Road No 7", "plot": "244"}, {"row": 444, "name": "Rudolf & Susanna Seifert", "addr": "Road No 7", "plot": "245"}, {"row": 445, "name": "Paul Roberts and Debbie French", "addr": "Road No 7", "plot": "246"}, {"row": 446, "name": "Sonwabile Manqalaca", "addr": "Road No 7", "plot": "247"}, {"row": 447, "name": "Leonard and Faith Manqalaza", "addr": "Road No 7", "plot": "247"}, {"row": 448, "name": "Lukas Lessing", "addr": "Road No 7", "plot": "249"}, {"row": 449, "name": "Amanda Reeves", "addr": "Road No 7", "plot": "249"}, {"row": 450, "name": "Jim Reeves", "addr": "Road No 7", "plot": "249"}, {"row": 451, "name": "Johan Vermaak", "addr": "Road No 7", "plot": "249"}, {"row": 452, "name": "Peter Zulu", "addr": "Road No 7", "plot": "250"}, {"row": 453, "name": "Leonard and Kopako Molako", "addr": "Road No 7", "plot": "251"}, {"row": 454, "name": "Joe", "addr": "Road No 6", "plot": "252"}, {"row": 455, "name": "Joao and Elisa Januario", "addr": "Road No 7", "plot": "252"}, {"row": 456, "name": "Mathibe and Magdeline Huma", "addr": "Road No 7", "plot": "253"}, {"row": 457, "name": "Elsie Mahuhushi", "addr": "Road No 7", "plot": "254"}, {"row": 458, "name": "Donald and Nonhle Chikudo", "addr": "Road No 7", "plot": "255"}, {"row": 459, "name": "Benedict and Evelyn Matia", "addr": "Road No 7", "plot": "256"}, {"row": 460, "name": "Nederduitse Gereformeerde Kerk", "addr": "Road No 7", "plot": "257"}, {"row": 461, "name": "R Baloi", "addr": "De Wet Street", "plot": "?"}, {"row": 462, "name": "No reference", "addr": "Fifth Street", "plot": "?"}, {"row": 463, "name": "Jacob Tamele", "addr": "First Avenue", "plot": "?"}, {"row": 464, "name": "Chante Venter", "addr": "Second Ave.", "plot": "?"}, {"row": 465, "name": "Gerald Bezuidenhout (Fuel Trailers)", "addr": "First Avenue", "plot": "1,3,7"}, {"row": 466, "name": "John & Jennifer Carr", "addr": "First Avenue", "plot": "11"}, {"row": 467, "name": "Jester Makoti", "addr": "Hillside Road", "plot": "12/1"}, {"row": 468, "name": "Johnny Fisher", "addr": "First Avenue", "plot": "13"}, {"row": 469, "name": "Darren Lester Harris", "addr": "Eeufees Street", "plot": "14"}, {"row": 470, "name": "Amer Chaytoo", "addr": "Road No 7", "plot": "145/0"}, {"row": 471, "name": "Itai Tendai and Lerato Ncube", "addr": "Road No 7", "plot": "145/1"}, {"row": 472, "name": "Kganyang Projects (Pty) Ltd", "addr": "Road No 7", "plot": "145/2"}, {"row": 473, "name": "Phenda and Hletshiwe Mlotshwa", "addr": "Road No 7", "plot": "145/3"}, {"row": 474, "name": "Isaac and Amanda Jaggers", "addr": "Road No 7", "plot": "145/4"}, {"row": 475, "name": "Marc and Loretta Heath", "addr": "Road No 7", "plot": "146/0"}, {"row": 476, "name": "Busisiwe Mashila", "addr": "Road No 7", "plot": "146/1"}, {"row": 477, "name": "Mapota Mosia Trust", "addr": "Road No 7", "plot": "146/2"}, {"row": 478, "name": "Verissmo Jose and Maria Pinto", "addr": "Road No 7", "plot": "147/0"}, {"row": 479, "name": "Verissmo Jose and Maria Pinto", "addr": "Road No 7", "plot": "147/1"}, {"row": 480, "name": "Zakhele Khanyi Mthokhozisi", "addr": "Road No 7", "plot": "147/2"}, {"row": 481, "name": "Thabo and Nontokozo Kwenane", "addr": "Road No 7", "plot": "147/3"}, {"row": 482, "name": "Zacharia and Andisiwe Nkambule", "addr": "Road No 7", "plot": "147/4"}, {"row": 483, "name": "Donovan and Karen Mateman", "addr": "Road No 7 (No Name)", "plot": "148/0"}, {"row": 484, "name": "Madelena De Vries (Lelly)", "addr": "Road No 7", "plot": "148/1"}, {"row": 485, "name": "Johan and Lelly De Vries (Tennants)", "addr": "Road No 7  (No Name)", "plot": "148/1"}, {"row": 486, "name": "Alistair Leukes", "addr": "First Avenue", "plot": "15"}, {"row": 487, "name": "Arnold Williams", "addr": "First Avenue", "plot": "15"}, {"row": 488, "name": "Abbeyfield", "addr": "First Avenue", "plot": "16"}, {"row": 489, "name": "Wayne Pettit", "addr": "First Avenue", "plot": "17"}, {"row": 490, "name": "Mtshali Nhlanhla", "addr": "Angle Road", "plot": "188?"}, {"row": 491, "name": "Carien Abrahams", "addr": "First Avenue", "plot": "22"}, {"row": 492, "name": "Faith Abrahams", "addr": "Second Ave.", "plot": "22"}, {"row": 493, "name": "Gideon and Antonette de Beer", "addr": "Road No 7", "plot": "243/1"}, {"row": 494, "name": "Gift & Charity Muthala", "addr": "Road No 7", "plot": "248/1"}, {"row": 495, "name": "Campbell Campbell", "addr": "Road No 7", "plot": "248/1"}, {"row": 496, "name": "Ifraan Ebrahim", "addr": "Road No 7", "plot": "248/2"}, {"row": 497, "name": "Mohsin Patel", "addr": "Road No 7", "plot": "248/2"}, {"row": 498, "name": "Tebogo Letlole / Claire Campbell", "addr": "Road No 7", "plot": "248/Re"}, {"row": 499, "name": "Getruida (Ida) Vermaak", "addr": "Road No 7", "plot": "249/1"}, {"row": 500, "name": "Chantelle Barnard", "addr": "Road No 7", "plot": "249/2"}, {"row": 501, "name": "Juane Saayman", "addr": "Road No 7", "plot": "249/2"}, {"row": 502, "name": "TLC - Viv and Pippa", "addr": "Second Ave.", "plot": "26a"}, {"row": 503, "name": "Tristan van der Walt", "addr": "Second Ave.", "plot": "26a"}, {"row": 504, "name": "Smith Mangena", "addr": "Eeufees Street", "plot": "28"}, {"row": 505, "name": "Greg Stevens", "addr": "Eeufees Street", "plot": "3"}, {"row": 506, "name": "St. Francis Church", "addr": "Green Road", "plot": "30"}, {"row": 507, "name": "Muzikayise Simela", "addr": "Eloff Street", "plot": "32a&b"}, {"row": 508, "name": "Unknown", "addr": "Nel Street", "plot": "35"}, {"row": 509, "name": "Ramushu - Catholic Church", "addr": "Angle Road", "plot": "39"}, {"row": 510, "name": "R Shearer? No 40 per D/O ref?", "addr": "Second Ave.", "plot": "42a"}, {"row": 511, "name": "Clinton Fortuin", "addr": "Angle Road", "plot": "48"}, {"row": 512, "name": "Darren Booysen", "addr": "Angle Road", "plot": "48"}, {"row": 513, "name": "Buhle Mchunu", "addr": "Centre Road/cnr Orch", "plot": "54-1"}, {"row": 514, "name": "Millicent Nkosi", "addr": "Centre Road", "plot": "54-1"}, {"row": 515, "name": "William Jackson", "addr": "Eloff Street", "plot": "55"}, {"row": 516, "name": "Dolly Lolwane (Pride Elephant)", "addr": "Eloff Street", "plot": "57"}, {"row": 517, "name": "Michelle Goncalves", "addr": "Fifth Street", "plot": "59A"}, {"row": 518, "name": "Gadatia Mustak", "addr": "Hillside Road", "plot": "69/71"}, {"row": 519, "name": "Jacinta van der Walt", "addr": "Eeufees Street", "plot": "69A"}, {"row": 520, "name": "Nomvula Shelembe", "addr": "Ohenimuri", "plot": "7"}, {"row": 521, "name": "Paul Gronebaum", "addr": "Ohenimuri", "plot": "8"}, {"row": 522, "name": "Bheki & Nthabiseng Malinga", "addr": "Nel Street", "plot": "88b"}, {"row": 523, "name": "Anthony Byrne", "addr": "Blignaut Street", "plot": "8a"}, {"row": 524, "name": "Lesley Visser", "addr": "First Avenue", "plot": "9"}, {"row": 525, "name": "Christine Russell", "addr": "First Avenue", "plot": "9"}, {"row": 526, "name": "Musa Thumba", "addr": "Golf Course Road", "plot": "91/92"}, {"row": 527, "name": "Deirdre Benade", "addr": "De Wet Street", "plot": "97b"}, {"row": 528, "name": "Ryan", "addr": "Fifth Street", "plot": ""}, {"row": 529, "name": "Keryn", "addr": "Second Ave.", "plot": ""}];
+
+// ── Tab navigation — data-tab, no onclick querySelector hack ────────────────
+const chartsInit={};
+document.querySelectorAll('.nav-btn[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    const t=btn.dataset.tab;
+    document.getElementById('tab-'+t).classList.add('active');
+    btn.classList.add('active');
+    if(!chartsInit[t]){chartsInit[t]=true;initCharts(t);}
+  });
+});
+
+// ── Charts — lazy init per tab ─────────────────────────────────────────────
 const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
 const tk={font:{size:10,family:'IBM Plex Mono,monospace'},color:'#999'};
 const gr={color:'rgba(0,0,0,0.05)'};
 
-// ── Data ─────────────────────────────────────────────────────────────────────
-// Historical months Mar-25 to Feb-26 are estimates; Mar-26 and Apr-26 are from workbook
-const SM = ['Mar-25','Apr-25','May-25','Jun-25','Jul-25','Aug-25','Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26'];
-const doT  = [18560,14250,13800,12900,13400,12700,13100,12800,13200,11800,14200,18583,19625,19625];
-const eftT = [12400,8200,7600,6800,7200,6400,7100,6600,6900,5800,7800,8790,20320,5180];
-
-// Camera — March 2026 (sourced from Bank Statement Mar-26 sheet)
-const camMarMembers = [
-  {name:'Dolly Lolwane (Pride Elephant)', street:'Eloff Street',  plot:'57',  amount:600},
-  {name:'Bunty & Lindsay Coryndon-Baker', street:'Eloff Street',  plot:'38',  amount:500},
-  {name:'Miroslaw Benpkavic',             street:'Danie Theron',  plot:'9',   amount:3500},
-  {name:'Mbulelo Mbenenge',               street:'Nel Street',    plot:'100', amount:500},
-  {name:'Tracey Van Niekerk',             street:'Nel Street',    plot:'90',  amount:2500},
-  {name:'Andrew Chapman',                 street:'Nel Street',    plot:'96',  amount:1000},
-  {name:'Philip Kruis',                   street:'Nel Street',    plot:'70',  amount:1000},
-  {name:'K Bland',                        street:'Nel Street',    plot:'88',  amount:500},
-  {name:'Evelyn Keartland',               street:'De Wet Street', plot:'91',  amount:500},
-  {name:'Nazam',                          street:'De Wet Street', plot:'108', amount:300},
-];
-const camMarSponsors = [
-  {name:'Damaskus Projects', amount:500},
-  {name:'Fifth Street',      amount:1000},
-  {name:'Van Niekerk',       amount:600},
-  {name:'Byron Nel Street',  amount:500},
-  {name:'PayShap BLGN15F',   amount:500},
-];
-// Camera — April 2026 (sourced from Bank Statement Apr-26 sheet)
-const camAprMembers = [
-  {name:'Leo van Niel',         street:'Eloff Street',    plot:'51',  amount:3500},
-  {name:'Ian Long (S. Long)',   street:'Blignaut Street', plot:'10',  amount:2000},
-  {name:'Richard Shearer',      street:'Second Avenue',   plot:'40',  amount:1000},
-  {name:'Mark Thompson',        street:'Green Road',      plot:'37',  amount:500},
-  {name:"J. O'Shea",            street:'Unresolved',      plot:'—',   amount:500},
-  {name:'Jimmy Gama',           street:'Unresolved',      plot:'—',   amount:500},
-  {name:'James Owens',          street:'Golf Course Road',plot:'60',  amount:500},
-  {name:'Terry Shapiro',        street:'Danie Theron',    plot:'82',  amount:350},
-];
-const camAprSponsors = [
-  {name:'Fifth Street', amount:1000},
-  {name:'BlgN15F',      amount:500},
-];
-
-const expenses = [
-  {date:'01/04/2026', ref:'CAPITEC B MCA1 04-26',             cat:'Bank fee',       amount:440.61,  notes:'DO service charge'},
-  {date:'02/04/2026', ref:'Red Hot Bit Consultants MCAA',     cat:'Other',          amount:3458.00, notes:'Unclassified outgoing — verify with admin'},
-  {date:'14/04/2026', ref:'TARY DESIGN MCAA',                 cat:'Camera purchase',amount:14502.00,notes:'Camera equipment — Tary Design + R2 fee'},
-  {date:'16/04/2026', ref:'001 UNPAIDS/WEIERINGS CAPITEC',    cat:'Reversal',       amount:170.00,  notes:'Unpaid DO reversed — R170'},
-  {date:'27/04/2026', ref:'Mengo Sibanda MCAA',               cat:'Salary',         amount:12506.00,notes:'Monthly salary — Mengo Sibanda + R6 fee'},
-  {date:'27/04/2026', ref:'LUKA MCAA FENCE',                  cat:'Maintenance',    amount:4756.00, notes:'Fence repair — Luka + R6 fee'},
-  {date:'29/04/2026', ref:'001 UNPAIDS/WEIERINGS DISC',       cat:'Reversal',       amount:350.00,  notes:'Unpaid DO reversed — R350'},
-  {date:'30/04/2026', ref:'Month S/Fee',                      cat:'Bank fee',       amount:50.00,   notes:'Monthly account fee'},
-];
-
-// Streets — sorted by rate (highest to lowest), from MCAA_Reconciled.xlsx Apr-26 columns
-const streetsData = [
-  {street:'Ohenimuri',              residents:2,  paying:1,  not_paying:1,  do_total:350,  eft_total:0,    rate:50.0},
-  {street:'Blignaut Street',        residents:8,  paying:3,  not_paying:5,  do_total:700,  eft_total:350,  rate:37.5},
-  {street:'Eloff Street',           residents:23, paying:7,  not_paying:16, do_total:1673, eft_total:520,  rate:30.4},
-  {street:'Centre Road',            residents:10, paying:3,  not_paying:7,  do_total:900,  eft_total:0,    rate:30.0},
-  {street:'First Avenue',           residents:42, paying:11, not_paying:31, do_total:3176, eft_total:1050, rate:26.2},
-  {street:'Fifth Street',           residents:32, paying:6,  not_paying:26, do_total:1875, eft_total:350,  rate:18.8},
-  {street:'Golf Course Road',       residents:62, paying:11, not_paying:51, do_total:2563, eft_total:1040, rate:17.7},
-  {street:'De Wet Street',          residents:30, paying:5,  not_paying:25, do_total:1063, eft_total:450,  rate:16.7},
-  {street:'Nico Pelser/Fourth St.', residents:24, paying:4,  not_paying:20, do_total:1540, eft_total:0,    rate:16.7},
-  {street:'Third Ave.',             residents:15, paying:2,  not_paying:13, do_total:550,  eft_total:0,    rate:13.3},
-  {street:'Green/Angle Road',       residents:23, paying:3,  not_paying:20, do_total:482,  eft_total:350,  rate:13.0},
-  {street:'Nel Street',             residents:31, paying:4,  not_paying:27, do_total:1300, eft_total:0,    rate:12.9},
-  {street:'Eeufees Street',         residents:26, paying:3,  not_paying:23, do_total:700,  eft_total:370,  rate:11.5},
-  {street:'Hillside Road',          residents:44, paying:5,  not_paying:39, do_total:1383, eft_total:0,    rate:11.4},
-  {street:'Road No 7',              residents:57, paying:6,  not_paying:51, do_total:1170, eft_total:500,  rate:10.5},
-  {street:'Second Avenue',          residents:34, paying:2,  not_paying:32, do_total:200,  eft_total:200,  rate:5.9},
-  {street:'Voortrekker Street',     residents:13, paying:1,  not_paying:12, do_total:350,  eft_total:0,    rate:7.7},
-  {street:'Orchard Road',           residents:25, paying:0,  not_paying:25, do_total:0,    eft_total:0,    rate:0.0},
-  {street:'Danie Theron',           residents:14, paying:0,  not_paying:14, do_total:0,    eft_total:0,    rate:0.0},
-  {street:'Hugenote Street',        residents:10, paying:0,  not_paying:10, do_total:0,    eft_total:0,    rate:0.0},
-  {street:'Road No 8',              residents:8,  paying:0,  not_paying:8,  do_total:0,    eft_total:0,    rate:0.0},
-];
-
-// Captains — captain names from Street Captains sheet; paying rates from Apr-26 workbook
-// Sorted by rate (highest to lowest), then alphabetically
-const captains = [
-  {street:'Blignaut Street',        captain:'',               ratio:'3 of 8'},
-  {street:'Eloff Street',           captain:'',               ratio:'7 of 23'},
-  {street:'First Avenue',           captain:'',               ratio:'11 of 42'},
-  {street:'Fifth Street',           captain:'Thulani Timile', ratio:'6 of 32'},
-  {street:'Golf Course Road',       captain:'Kevin',          ratio:'11 of 62'},
-  {street:'De Wet Street',          captain:'Richard Bentheim',ratio:'5 of 30'},
-  {street:'Nico Pelser/Fourth St.', captain:'Paul Lottreaux', ratio:'4 of 24'},
-  {street:'Centre Road',            captain:'',               ratio:'3 of 10'},
-  {street:'Third Ave.',             captain:'Chris Leeson',   ratio:'2 of 15'},
-  {street:'Green/Angle Road',       captain:'Mark Thompson',  ratio:'3 of 23'},
-  {street:'Nel Street',             captain:'Cliff Webb',     ratio:'4 of 31'},
-  {street:'Eeufees Street',         captain:'Rolf',           ratio:'3 of 26'},
-  {street:'Hillside Road',          captain:'James Owens',    ratio:'5 of 44'},
-  {street:'Road No 7',              captain:'Zama Hlongwane', ratio:'6 of 57'},
-  {street:'Voortrekker Street',     captain:'',               ratio:'1 of 13'},
-  {street:'Second Avenue',          captain:'',               ratio:'2 of 34'},
-  {street:'Orchard Road',           captain:'Anton',          ratio:'0 of 25'},
-  {street:'Hugenote Street',        captain:'',               ratio:'0 of 10'},
-];
-
-const dqIssues = [
-  {type:'good', text:'Balance check PASSED — computed R41,560.29 matches statement closing balance exactly. Opening R42,267.90 + credits R35,525.00 − debits R36,232.61 = R41,560.29.'},
-  {type:'good', text:'All 48 bank transactions classified — 0 unmatched membership credits in April 2026.'},
-  {type:'warn', text:'DO batch actual (R19,995) exceeds allocated D/O member total (R19,625) by R370. Possible new D/O member not yet in Comprehensive list column C. Review with administrator.'},
-  {type:'warn', text:'Two DO reversals for WEIERINGS: R170 (Capitec bank) on 16/04 and R350 (DISC bank) on 29/04. Affected member records zeroed for Apr-26 DO.'},
-  {type:'warn', text:'Unmatched camera payments — J. O\'Shea R500 and Jimmy Gama R500 are not in the Comprehensive list. Amounts included in camera total but no member row credited. Add to database or confirm identities.'},
-  {type:'warn', text:'EFT ref "Ndlovu:60 Fifth ST" R350 — surname Ndlovu not in member database; attributed to plot 60 Fifth Street (Sonya Herbst) by address match. Confirm if this is a tenant or different resident.'},
-  {type:'warn', text:'EFT ref "74 NEL STREET" R500 — no member found at Nel Street plot 74; attributed to Golf Course Road plot 74 (Andy Delahunty) by plot-number match. Verify: is this a different member on Nel Street?'},
-  {type:'warn', text:'Red Hot Bit Consultants MCAA R3,458 on 02/04 is not in the canonical hardcoded expense list. Classified as Other. Verify category with administrator.'},
-];
-
-// ── Build donuts ─────────────────────────────────────────────────────────────
-new Chart(document.getElementById('d1'),{
-  type:'doughnut',
-  data:{datasets:[{data:[76,452],backgroundColor:['#15803d','#b91c1c'],borderWidth:3,borderColor:'#fff'}]},
-  options:{...base,cutout:'68%'}
-});
-
-let plotsWithPayer = 0, totalPlots = 202;
-streetsData.forEach(s=>{ if(s.paying>0) plotsWithPayer += Math.min(Math.ceil(s.residents*0.5), s.paying); });
-plotsWithPayer = Math.min(plotsWithPayer, totalPlots);
-document.getElementById('plots-paying-n').textContent = plotsWithPayer;
-document.getElementById('plots-paying-leg').innerHTML = `
-  <div class="lr"><span class="sw" style="background:#15803d"></span>With payer<span class="lr-pct" style="color:#15803d">${Math.round(plotsWithPayer/totalPlots*100)}%</span></div>
-  <div class="lr"><span class="sw" style="background:#b91c1c"></span>No payer<span class="lr-pct" style="color:#b91c1c">${Math.round((totalPlots-plotsWithPayer)/totalPlots*100)}%</span></div>`;
-new Chart(document.getElementById('d2'),{
-  type:'doughnut',
-  data:{datasets:[{data:[plotsWithPayer,totalPlots-plotsWithPayer],backgroundColor:['#15803d','#b91c1c'],borderWidth:3,borderColor:'#fff'}]},
-  options:{...base,cutout:'68%'}
-});
-
-new Chart(document.getElementById('d3'),{
-  type:'doughnut',
-  data:{datasets:[{data:[11,7],backgroundColor:['#15803d','#b91c1c'],borderWidth:3,borderColor:'#fff'}]},
-  options:{...base,cutout:'68%'}
-});
-
-// ── Overview trend ───────────────────────────────────────────────────────────
-new Chart(document.getElementById('trend-overview'),{
-  type:'bar',
-  data:{labels:SM,datasets:[
-    {label:'DO',data:doT,backgroundColor:'rgba(29,78,216,0.7)',stack:'s',borderRadius:2},
-    {label:'EFT',data:eftT,backgroundColor:'rgba(21,128,61,0.7)',stack:'s',borderRadius:2},
-    {type:'line',label:'Total',data:doT.map((d,i)=>d+eftT[i]),borderColor:'#b91c1c',
-     borderWidth:2.5,backgroundColor:'transparent',tension:0.3,pointRadius:3,
-     pointBackgroundColor:'#b91c1c',stack:undefined}
-  ]},
-  options:{...base,
-    scales:{
-      x:{stacked:true,ticks:tk,grid:{display:false}},
-      y:{stacked:false,ticks:{...tk,callback:v=>'R'+Math.round(v/1000)+'k'},grid:gr}
-    },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' R'+(c.parsed.y||0).toLocaleString()}}}
+function initCharts(tab){
+  if(tab==='ov'){
+    new Chart(document.getElementById('d1'),{type:'doughnut',data:{datasets:[{data:[79,449],backgroundColor:['#15803d','#b91c1c'],borderWidth:3,borderColor:'#fff'}]},options:{...base,cutout:'68%'}});
+    const tp=182;let pp=0;
+    streetsData.forEach(s=>{if(s.paying>0)pp+=s.paying;});
+    pp=Math.min(pp,tp);
+    document.getElementById('plots-n').textContent=pp;
+    document.getElementById('plots-leg').innerHTML=
+      `<div class="lr"><span class="sw" style="background:#15803d"></span>With payer<span class="lr-pct" style="color:#15803d">${Math.round(pp/tp*100)}%</span></div>`+
+      `<div class="lr"><span class="sw" style="background:#b91c1c"></span>No payer<span class="lr-pct" style="color:#b91c1c">${Math.round((tp-pp)/tp*100)}%</span></div>`;
+    new Chart(document.getElementById('d2'),{type:'doughnut',data:{datasets:[{data:[pp,tp-pp],backgroundColor:['#15803d','#b91c1c'],borderWidth:3,borderColor:'#fff'}]},options:{...base,cutout:'68%'}});
+    new Chart(document.getElementById('d3'),{type:'doughnut',data:{datasets:[{data:[11,8],backgroundColor:['#15803d','#b91c1c'],borderWidth:3,borderColor:'#fff'}]},options:{...base,cutout:'68%'}});
+    new Chart(document.getElementById('trend-overview'),{
+      type:'bar',
+      data:{labels:SM,datasets:[
+        {label:'DO',data:doT,backgroundColor:'rgba(29,78,216,0.7)',stack:'s',borderRadius:2},
+        {label:'EFT',data:eftT,backgroundColor:'rgba(21,128,61,0.7)',stack:'s',borderRadius:2},
+        {type:'line',label:'Total',data:doT.map((d,i)=>d+eftT[i]),borderColor:'#b91c1c',borderWidth:2.5,backgroundColor:'transparent',tension:0.3,pointRadius:3,pointBackgroundColor:'#b91c1c',stack:undefined}
+      ]},
+      options:{...base,scales:{x:{stacked:true,ticks:tk,grid:{display:false}},y:{stacked:false,ticks:{...tk,callback:v=>'R'+Math.round(v/1000)+'k'},grid:gr}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' R'+(c.parsed.y||0).toLocaleString()}}}}
+    });
   }
-});
-
-// ── Revenue tab ───────────────────────────────────────────────────────────────
-new Chart(document.getElementById('rv-donut'),{
-  type:'doughnut',
-  data:{datasets:[{data:[19625,5180],backgroundColor:['rgba(29,78,216,0.85)','rgba(21,128,61,0.85)'],borderWidth:3,borderColor:'#fff'}]},
-  options:{...base,cutout:'60%',
-    plugins:{legend:{display:true,position:'right',labels:{font:{family:'IBM Plex Mono,monospace',size:11},color:'#2a2a2a',
-      generateLabels:()=>[{text:'DO  R19,625',fillStyle:'rgba(29,78,216,0.85)',strokeStyle:'#fff'},
-                           {text:'EFT  R5,180',fillStyle:'rgba(21,128,61,0.85)',strokeStyle:'#fff'}]}}}}
-});
-
-new Chart(document.getElementById('rv-trend'),{
-  type:'bar',
-  data:{labels:SM,datasets:[
-    {label:'DO',data:doT,backgroundColor:'rgba(29,78,216,0.8)',stack:'s',borderRadius:3},
-    {label:'EFT',data:eftT,backgroundColor:'rgba(21,128,61,0.8)',stack:'s',borderRadius:3},
-    {type:'line',label:'Total',data:doT.map((d,i)=>d+eftT[i]),borderColor:'#b91c1c',
-     borderWidth:2,backgroundColor:'transparent',tension:0.3,pointRadius:2,
-     pointBackgroundColor:'#b91c1c',stack:undefined}
-  ]},
-  options:{...base,
-    scales:{
-      x:{stacked:true,ticks:tk,grid:{display:false}},
-      y:{stacked:true,ticks:{...tk,callback:v=>'R'+Math.round(v/1000)+'k'},grid:gr}
-    }
+  if(tab==='rv'){
+    new Chart(document.getElementById('rv-donut'),{type:'doughnut',data:{datasets:[{data:[19625,6710],backgroundColor:['rgba(29,78,216,0.8)','rgba(21,128,61,0.8)'],borderWidth:3,borderColor:'#fff'}]},options:{...base,cutout:'65%',plugins:{legend:{display:true,position:'right',labels:{font:{family:'IBM Plex Mono,monospace',size:10},color:'#5a5a5a'}}}}});
+    new Chart(document.getElementById('rv-bar'),{type:'bar',data:{labels:SM,datasets:[{label:'DO',data:doT,backgroundColor:'rgba(29,78,216,0.8)',stack:'s',borderRadius:3},{label:'EFT',data:eftT,backgroundColor:'rgba(21,128,61,0.8)',stack:'s',borderRadius:3}]},options:{...base,scales:{x:{stacked:true,ticks:tk,grid:{display:false}},y:{stacked:true,ticks:{...tk,callback:v=>'R'+Math.round(v/1000)+'k'},grid:gr}}}});
   }
-});
-
-const doCountData  = [53,42,40,38,40,37,39,38,40,35,43,54,60,60];
-const eftCountData = [35,24,22,20,21,19,21,20,21,17,23,27,51,19];
-new Chart(document.getElementById('rv-do-count'),{
-  type:'bar',
-  data:{labels:SM,datasets:[{label:'DO payers',data:doCountData,backgroundColor:'rgba(29,78,216,0.8)',borderRadius:3}]},
-  options:{...base,scales:{x:{ticks:tk,grid:{display:false}},y:{ticks:tk,grid:gr}}}
-});
-new Chart(document.getElementById('rv-eft-count'),{
-  type:'bar',
-  data:{labels:SM,datasets:[{label:'EFT payers',data:eftCountData,backgroundColor:'rgba(21,128,61,0.8)',borderRadius:3}]},
-  options:{...base,scales:{x:{ticks:tk,grid:{display:false}},y:{ticks:tk,grid:gr}}}
-});
-
-// ── Camera tab ────────────────────────────────────────────────────────────────
-function renderCamMembers(data, gridId){
-  const g = document.getElementById(gridId);
-  data.forEach(m=>{
-    const unresolved = m.street === 'Unresolved';
-    g.innerHTML += `<div class="cam-item"${unresolved?' style="opacity:0.7;border-style:dashed"':''}>
-      <div class="cam-name">${m.name}</div>
-      <div class="cam-sub">${m.street} &middot; plot ${m.plot}${unresolved?' &middot; <em>not in database</em>':''}</div>
-      <div class="cam-val">R${m.amount.toLocaleString()}</div>
-    </div>`;
-  });
 }
-function renderCamSponsors(data, gridId){
-  const g = document.getElementById(gridId);
-  data.forEach(s=>{
-    g.innerHTML += `<div class="cam-sponsor">
-      <div class="cam-name" style="font-size:12px;font-weight:600;margin-bottom:6px">${s.name}</div>
-      <div style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--purple)">R${s.amount.toLocaleString()}</div>
-    </div>`;
-  });
-}
-renderCamMembers(camMarMembers,  'cam-mar-members-grid');
-renderCamSponsors(camMarSponsors,'cam-mar-sponsors-grid');
-renderCamMembers(camAprMembers,  'cam-apr-members-grid');
-renderCamSponsors(camAprSponsors,'cam-apr-sponsors-grid');
+initCharts('ov');
 
-// ── Streets tab ───────────────────────────────────────────────────────────────
-const stb = document.getElementById('streets-tbody');
-// Already sorted by rate descending in the data array
+// ── Streets ───────────────────────────────────────────────────────────────────
+const stTbody=document.getElementById('streets-tbody');
 streetsData.forEach(s=>{
-  const rate = s.rate;
-  const rateCol = rate<20?'var(--red)':rate<40?'var(--amber)':'var(--green)';
-  const rateBg  = rate<20?'var(--red-l)':rate<40?'var(--amber-l)':'var(--green-l)';
-  const doStr    = s.do_total  > 0 ? 'R'+s.do_total.toLocaleString()  : '—';
-  const eftStr   = s.eft_total > 0 ? 'R'+s.eft_total.toLocaleString() : '—';
-  const tot      = s.do_total + s.eft_total;
-  const totalStr = tot > 0 ? 'R'+tot.toLocaleString() : '—';
-  stb.innerHTML += `<tr>
-    <td><span class="st-name">${s.street}</span></td>
-    <td><span style="font-family:var(--font-mono);font-size:11px">${s.residents}</span></td>
-    <td style="color:#1d4ed8;font-family:var(--font-mono);font-size:11px">${doStr}</td>
-    <td style="color:#15803d;font-family:var(--font-mono);font-size:11px">${eftStr}</td>
-    <td style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--ink)">${totalStr}</td>
-    <td style="font-family:var(--font-mono);font-size:11px;font-weight:600">${s.paying||'—'}</td>
-    <td style="color:var(--red);font-family:var(--font-mono);font-size:11px">${s.not_paying}</td>
-    <td><span class="rate-badge" style="background:${rateBg};color:${rateCol}">${rate.toFixed(1)}%</span></td>
-    <td><div class="bar-track"><div class="bar-fill" style="width:${Math.min(rate,100)}%;background:${rateCol}"></div></div></td>
-  </tr>`;
+  const col=s.rate<20?'#b91c1c':s.rate<40?'#b45309':'#15803d';
+  const bg=s.rate<20?'#fef2f2':s.rate<40?'#fffbeb':'#f0fdf4';
+  stTbody.innerHTML+=`<tr><td><span class="st-name">${s.street}</span></td><td style="font-family:var(--font-mono);font-size:11px">${s.residents}</td><td style="font-family:var(--font-mono);font-size:11px;color:#1d4ed8">${s.do_total>0?'R'+s.do_total.toLocaleString():'—'}</td><td style="font-family:var(--font-mono);font-size:11px;color:#15803d">${s.eft_total>0?'R'+s.eft_total.toLocaleString():'—'}</td><td style="font-family:var(--font-mono);font-size:11px;font-weight:600">${(s.do_total+s.eft_total)>0?'R'+(s.do_total+s.eft_total).toLocaleString():'—'}</td><td style="font-family:var(--font-mono);font-size:11px;color:#15803d">${s.paying}</td><td style="font-family:var(--font-mono);font-size:11px;color:#b91c1c">${s.not_paying}</td><td><span class="rate-badge" style="background:${bg};color:${col}">${s.rate.toFixed(1)}%</span></td><td><div class="bar-track"><div class="bar-fill" style="width:${Math.min(s.rate,100)}%;background:${col}"></div></div></td></tr>`;
 });
 
-// ── Captains tab ──────────────────────────────────────────────────────────────
-// Sort by rate descending
-const captainsSorted = [...captains].sort((a,b)=>{
-  const ra = parseInt(a.ratio)||0, ta = parseInt(a.ratio.split(' of ')[1])||1;
-  const rb = parseInt(b.ratio)||0, tb = parseInt(b.ratio.split(' of ')[1])||1;
-  return (rb/tb) - (ra/ta);
-});
-const cg = document.getElementById('captains-grid');
-captainsSorted.forEach(c=>{
-  const parts = c.ratio.split(' of ');
-  const paid = parseInt(parts[0])||0;
-  const total = parseInt(parts[1])||1;
-  const pct = Math.round(paid/total*100);
-  const col = pct===0?'#b91c1c':pct<20?'#b45309':'#15803d';
-  const tag = pct===0?'tag-r':pct<20?'tag-e':'tag-g';
-  const tagTxt = pct===0?'Recruit':pct<20?'Follow up':'On track';
-  const hasCap = c.captain && c.captain.length > 0;
-  cg.innerHTML += `<div class="cap-card">
-    <span class="cap-tag ${tag}">${tagTxt}</span>
-    <div class="cap-street">${c.street}</div>
-    <div class="cap-name">${hasCap?'Capt: '+c.captain:'No captain assigned'}</div>
-    <div class="cap-bar-wrap">
-      <div class="cap-bar"><div class="cap-fill" style="width:${pct}%;background:${col}"></div></div>
-      <span class="cap-ratio" style="color:${col}">${c.ratio}</span>
-    </div>
-  </div>`;
+// ── Captains ──────────────────────────────────────────────────────────────────
+const capGrid=document.getElementById('captains-grid');
+[...captains].sort((a,b)=>b.rate-a.rate).forEach(c=>{
+  const col=c.rate===0?'#b91c1c':c.rate<25?'#b45309':'#15803d';
+  const tag=c.rate===0?'Recruit':c.rate<25?'Follow up':'On track';
+  const cls=c.rate===0?'tag-r':c.rate<25?'tag-e':'tag-g';
+  capGrid.innerHTML+=`<div class="cap-card"><span class="cap-tag ${cls}">${tag}</span><div class="cap-street">${c.street}</div><div class="cap-name">Capt: ${c.captain||'No captain assigned'}</div><div class="cap-bar-wrap"><div class="cap-bar"><div class="cap-fill" style="width:${Math.min(c.rate,100)}%;background:${col}"></div></div><span class="cap-ratio" style="color:${col}">${c.paying}/${c.residents}</span></div></div>`;
 });
 
-// ── Expenses tab ──────────────────────────────────────────────────────────────
-const etb = document.getElementById('expense-tbody');
-const catStyle = {
-  'Salary':         ['var(--red-m)','var(--red)'],
-  'Camera purchase':['var(--purple-m)','var(--purple)'],
-  'Maintenance':    ['var(--amber-m)','var(--amber)'],
-  'Bank fee':       ['var(--blue-m)','var(--blue)'],
-  'Reversal':       ['var(--amber-m)','var(--amber)'],
-  'Other':          ['var(--paper3)','var(--ink3)'],
-};
-let expTotal = 0;
+// ── Expenses ──────────────────────────────────────────────────────────────────
+const catCol={'Salary':'--red','Maintenance':'--amber','Camera purchase':'--purple','Camera refund':'--purple','Bank fee':'--blue','Reversal':'--amber','Utilities':'--blue'};
+const expTbody=document.getElementById('exp-tbody');
+let tot=0;
 expenses.forEach(e=>{
-  const [bg,col] = catStyle[e.cat]||catStyle['Other'];
-  expTotal += e.amount;
-  etb.innerHTML += `<tr>
-    <td>${e.date}</td>
-    <td>${e.ref}</td>
-    <td><span class="exp-cat" style="background:${bg};color:${col}">${e.cat}</span></td>
-    <td style="text-align:right;font-weight:600">R ${e.amount.toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-    <td style="color:var(--ink4)">${e.notes}</td>
-  </tr>`;
+  tot+=e.amount;
+  const cv=catCol[e.cat]||'--ink3';
+  const bg=cv==='--ink3'?'var(--paper3)':`var(${cv}-m)`;
+  const fg=cv==='--ink3'?'var(--ink3)':`var(${cv})`;
+  expTbody.innerHTML+=`<tr><td>${e.date}</td><td style="color:var(--ink2)">${e.ref}</td><td><span class="exp-cat" style="background:${bg};color:${fg}">${e.cat}</span></td><td style="text-align:right;font-weight:600">R${e.amount.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td style="color:var(--ink4)">${e.notes}</td></tr>`;
 });
-etb.innerHTML += `<tr style="border-top:2px solid var(--paper3)">
-  <td colspan="3" style="font-weight:600;font-family:var(--font-mono);font-size:11px">TOTAL</td>
-  <td style="text-align:right;font-weight:600;font-family:var(--font-display);font-size:16px">R ${expTotal.toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-  <td></td>
-</tr>`;
+expTbody.innerHTML+=`<tr style="background:var(--paper);font-weight:600"><td colspan="3" style="text-align:right;font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Total</td><td style="text-align:right">R${tot.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td></td></tr>`;
 
-// ── Data quality tab ──────────────────────────────────────────────────────────
-const dqg = document.getElementById('dq-grid');
-const dqLbl = {bad:'Critical',warn:'Warning',good:'Good'};
-dqIssues.forEach(i=>{
-  dqg.innerHTML += `<div class="dq-item ${i.type}">
-    <span class="dq-badge">${dqLbl[i.type]}</span>
-    <span>${i.text}</span>
-  </div>`;
+// ── Data quality ──────────────────────────────────────────────────────────────
+const dqGrid=document.getElementById('dq-grid');
+const dqLbl={bad:'Critical',warn:'Warning',good:'Good'};
+dqIssues.forEach(i=>{dqGrid.innerHTML+=`<div class="dq-item ${i.type}"><span class="dq-badge">${dqLbl[i.type]}</span><span>${i.text}</span></div>`;});
+
+// ── Unmatched EFTs ────────────────────────────────────────────────────────────
+const decisions={};
+
+function renderUM(){
+  const c=document.getElementById('um-rows');
+  c.innerHTML='';
+  unmatchedEFTs.forEach((u,idx)=>{
+    const d=decisions[idx]||{};
+    const stTxt=d.ignored?'Ignored':d.member?'Matched':'Pending';
+    const stCls=d.ignored?'ignored':d.member?'matched':'pending';
+    const inpVal=d.member?`${d.member.name} — ${d.member.addr}${d.member.plot?' plot '+d.member.plot:''}`:'';
+    c.innerHTML+=`<div class="um-row" id="um-row-${idx}">
+      <span class="um-date">${u.date}</span>
+      <span class="um-ref">${u.ref}</span>
+      <span class="um-amt">R${u.amount.toLocaleString()}</span>
+      <div class="um-search">
+        <input type="text" id="um-inp-${idx}" placeholder="Type name, street or plot…"
+          value="${inpVal}" autocomplete="off"
+          class="${d.member?'matched':''}"
+          oninput="filterM(${idx})" onfocus="openDD(${idx})">
+        <div class="um-dropdown" id="um-dd-${idx}"></div>
+      </div>
+      <div class="um-actions">
+        <span class="um-status ${stCls}">${stTxt}</span>
+        ${!d.member&&!d.ignored?`<button class="um-btn ignore" onclick="ignUM(${idx})">Ignore</button>`:''}
+        ${d.member||d.ignored?`<button class="um-btn clear" onclick="clrUM(${idx})">Clear</button>`:''}
+      </div>
+    </div>`;
+  });
+  updateWB();
+}
+
+// Store hits outside DOM so selM never needs serialised data in HTML attributes
+const _ddHits={};
+
+function filterM(idx){
+  const q=document.getElementById('um-inp-'+idx).value.toLowerCase().trim();
+  const dd=document.getElementById('um-dd-'+idx);
+  if(q.length<2){dd.classList.remove('open');return;}
+  const hits=MEMBERS.filter(m=>
+    m.name.toLowerCase().includes(q)||
+    m.addr.toLowerCase().includes(q)||
+    m.plot.toLowerCase().includes(q)
+  ).slice(0,10);
+  _ddHits[idx]=hits;
+  dd.innerHTML='';
+  if(!hits.length){
+    const el=document.createElement('div');
+    el.className='um-opt';el.style.color='var(--ink4)';el.textContent='No members found';
+    dd.appendChild(el);
+  } else {
+    hits.forEach((m,hi)=>{
+      const el=document.createElement('div');
+      el.className='um-opt';
+      el.innerHTML=`<strong>${m.name}</strong><small>${m.addr}${m.plot?' &middot; plot '+m.plot:''}</small>`;
+      // Use mousedown so it fires before the input loses focus
+      el.addEventListener('mousedown',evt=>{
+        evt.preventDefault(); // prevent blur closing dropdown first
+        decisions[idx]={member:{row:m.row,name:m.name,addr:m.addr,plot:m.plot}};
+        dd.classList.remove('open');
+        renderUM();updateKPIs();
+      });
+      dd.appendChild(el);
+    });
+  }
+  dd.classList.add('open');
+}
+
+function openDD(idx){const v=document.getElementById('um-inp-'+idx).value;if(v.length>=2)filterM(idx);}
+
+function ignUM(idx){decisions[idx]={ignored:true};renderUM();updateKPIs();}
+function clrUM(idx){delete decisions[idx];renderUM();updateKPIs();}
+
+function updateKPIs(){
+  const matched=Object.values(decisions).filter(d=>d.member).length;
+  document.getElementById('um-kpi-matched').textContent=matched;
+  const pending=unmatchedEFTs.length-Object.keys(decisions).length;
+  document.getElementById('um-badge').textContent=pending>0?pending+' pending':'All resolved';
+}
+
+function updateWB(){
+  const ms=Object.entries(decisions).filter(([,d])=>d.member).map(([i,d])=>({date:unmatchedEFTs[i].date,ref:unmatchedEFTs[i].ref,amount:unmatchedEFTs[i].amount,row:d.member.row,name:d.member.name}));
+  const box=document.getElementById('wb-box');
+  if(!ms.length){box.style.display='none';return;}
+  box.style.display='block';
+  const lines=ms.map(m=>`    {"date": "${m.date}", "ref": "${m.ref}", "amount": ${m.amount}, "row": ${m.row}, "name": "${m.name.replace(/"/g,'\\"')}"}`).join(',\n');
+  document.getElementById('wb-pre').textContent=
+`import openpyxl, sys
+sys.stdout.reconfigure(encoding='utf-8')
+WORKBOOK = 'MCAA_Reconciled_May2026.xlsx'
+MAY_EFT_COL = 38  # May-26 EFT column in Comprehensive list
+
+matches = [
+${lines.replace(/\n/g,'\n')}
+]
+
+wb = openpyxl.load_workbook(WORKBOOK)
+ws  = wb['Comprehensive list']
+log = wb['Matching Audit Log']
+nxt = log.max_row + 1
+
+for m in matches:
+    existing = ws.cell(m['row'], MAY_EFT_COL).value or 0
+    ws.cell(m['row'], MAY_EFT_COL).value = existing + m['amount']
+    log.cell(nxt,1).value = m['date']
+    log.cell(nxt,2).value = m['ref']
+    log.cell(nxt,3).value = m['amount']
+    log.cell(nxt,4).value = 'Membership (EFT)'
+    log.cell(nxt,5).value = 'MANUAL'
+    log.cell(nxt,6).value = 'HIGH'
+    log.cell(nxt,7).value = m['name']
+    log.cell(nxt,8).value = m['row']
+    log.cell(nxt,9).value = 'Matched via dashboard'
+    nxt += 1
+    print(f"Written: {m['ref']} -> {m['name']} (row {m['row']}) R{m['amount']}")
+
+wb.save(WORKBOOK)
+print("Done.")`;
+}
+
+function copyWB(){
+  navigator.clipboard.writeText(document.getElementById('wb-pre').textContent)
+    .then(()=>{const b=document.querySelector('.copy-btn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',2000);});
+}
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.um-search'))document.querySelectorAll('.um-dropdown').forEach(d=>d.classList.remove('open'));
 });
+
+renderUM();
 </script>
 </body>
 </html>
