@@ -1,5 +1,10 @@
-# Sensitive member data — never commit
-*.xlsx
+# Sensitive member data — never commit raw source files
+MCAA Membership List 31Mar26.xlsx
+MCAA_Reconciled.xlsx
+
+# Allow the live monthly workbook (patched by GitHub Actions)
+# *.xlsx  ← removed
+
 *.xls
 *.pdf
 
